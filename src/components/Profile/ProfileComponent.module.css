@@ -1,0 +1,9 @@
+
+.content_header_img img{
+    grid-area: content;
+    width: 100%;
+    max-height: 200px;
+}
+.content {
+
+}

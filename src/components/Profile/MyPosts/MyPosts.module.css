@@ -1,0 +1,22 @@
+.post {
+    width: 40%;
+
+}
+.title span {
+    text-align: center;
+}
+.content {
+    padding: 1%;
+}
+.error {
+    display: block;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    color: #bd1616;
+}
+.input {
+    margin-bottom: 0!important;
+}
+.head {
+    margin-bottom: 1rem;
+}
