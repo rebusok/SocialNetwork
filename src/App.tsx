@@ -5,7 +5,7 @@ import ProfileComponent from "./components/Profile/ProfileComponent";
 import Dialogs from "./components/Dialogs/Dialogs";
 
 import s from './App.module.css';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import state, {PostType} from "./redux/state";
 import {v1} from "uuid";
 
@@ -21,11 +21,14 @@ const App = () => {
         return [newPost, ...posts];
     }
     return (
+
         <Router>
+
             <div className={s.app_wrapper}>
                 <Header/>
                 <Navbar/>
                 <div className={s.content}>
+                    <Switch>
                     <Route path='/'
                            render={() => <h2>Welcom to Soc</h2>}
                            exact />
@@ -35,9 +38,11 @@ const App = () => {
                     <Route path='/dialogs/:id?' exact  render ={() => <Dialogs
                     dialogs={dialogs}
                     messages={messages}/>}/>
+                    </Switch>
                 </div>
             </div>
         </Router>
+
 
     );
 }
