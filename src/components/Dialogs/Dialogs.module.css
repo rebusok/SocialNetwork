@@ -76,3 +76,17 @@
     border-radius: 10px;
     padding: 10px 10px;
 }
+textarea {
+    resize: none;
+    width: 200px;
+}
+.textarea_head {
+    display: flex;
+    align-items: center;
+}
+.textarea {
+    margin-right: 10px;
+}
+.btn_dialog {
+    height: 40px;
+}

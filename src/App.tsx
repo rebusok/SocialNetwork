@@ -15,11 +15,18 @@ const App = () => {
     const {dialogs, messages} = state.dialogPage;
     const {posts} = state.profilePage;
     const [postsJ, setTask] = useState(posts);
+    const [messageDialog, setMessageDialog] = useState(messages);
+
+    const addMessage = (mes: string) => {
+        const newMes = {id: v1(), message: mes};
+        setMessageDialog([...messageDialog, newMes])
+    }
     const collBackAddTask = (value:string) => setTask(addPost(postsJ, value))
     const addPost = (posts:Array<PostType>, value:string) => {
         const newPost = {id: v1(), message: value, likeCount: 0};
-        return [newPost, ...posts];
+        return [ ...posts, newPost];
     }
+    
     return (
 
         <Router>
@@ -37,7 +44,8 @@ const App = () => {
                         addPost={collBackAddTask}/>}/>
                     <Route path='/dialogs/:id?' exact  render ={() => <Dialogs
                     dialogs={dialogs}
-                    messages={messages}/>}/>
+                    messages={messageDialog}
+                    addMessage={addMessage}/>}/>
                     </Switch>
                 </div>
             </div>

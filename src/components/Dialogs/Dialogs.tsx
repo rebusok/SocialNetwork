@@ -1,11 +1,16 @@
-import React from "react";
+import React, {ChangeEvent, useState} from "react";
 import s from './Dialogs.module.css'
-import {DialogPageType} from '../../redux/state'
+import { DialogType, MessageType } from '../../redux/state'
 import {NavLink} from "react-router-dom";
 
+type DialogsType = {
+    dialogs: Array<DialogType>
+    messages: Array<MessageType>
+    addMessage: (message: string) => void
+}
 
 
-const Dialogs: React.FC<DialogPageType>= (props) => {
+const Dialogs= (props: DialogsType) => {
     const {dialogs, messages} = props
     const perosnLoaded  =  dialogs.map(({name, id}) => {
             return (
@@ -27,19 +32,43 @@ const Dialogs: React.FC<DialogPageType>= (props) => {
 
             </div>
         )
-    })
+    });
+    const [value, setTitle] = useState('');
+
+    const callBackAddTask = () => {
+        if (value.trim() !== ''){
+            props.addMessage(value);
+
+        } 
+        setTitle('');
+    }
+    const onTitleChangeHandler = (e:ChangeEvent<HTMLTextAreaElement>) => {
+        setTitle(e.currentTarget.value);
+    }
+    
 
     return(
-        <div className={s.wrapper}>
-            <div className={s.names}>
-                <div className={s.dialog_items}>
-                    {perosnLoaded}
+        <div>
+            <div className={s.wrapper}>
+                <div className={s.names}>
+                    <div className={s.dialog_items}>
+                        {perosnLoaded}
+                    </div>
                 </div>
+                <div className={s.line}> </div>
+                <div className={s.message}>
+                    {messageDial}
+                </div>
+                
             </div>
-            <div className={s.line}> </div>
-            <div className={s.message}>
-                {messageDial}
-            </div>
+            <div className={s.textarea_head}>
+                <textarea 
+                    className={s.textarea}
+                    value={value}
+                    onChange={onTitleChangeHandler} >
+
+                 </textarea>
+            <button className={`btn btn-success  ${s.btn_dialog}`} onClick={callBackAddTask}>Add MES</button></div>
         </div>
     )
 }
