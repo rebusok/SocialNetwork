@@ -7,6 +7,7 @@ import {ProfilePageType} from '../../../../redux/state'
 
 
 const Posts:React.FC<ProfilePageType> = (props) => {
+    
     const postVie = props.posts.map(({message, likeCount, id}) => {
         return (
             <div key={id}>

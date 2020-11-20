@@ -6,26 +6,25 @@ import Dialogs from "./components/Dialogs/Dialogs";
 
 import s from './App.module.css';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import state, {PostType} from "./redux/state";
-import {v1} from "uuid";
+import { RootStateType, addPostActionCreator, addMessageActionCreator } from "./redux/state";
+
+type  AppType = {
+    dispatch: (action:any) => any
+    state:  RootStateType
+}
 
 
 
-const App = () => {
-    const {dialogs, messages} = state.dialogPage;
-    const {posts} = state.profilePage;
-    const [postsJ, setTask] = useState(posts);
+const App = (props:AppType) => {
+    const {dispatch, state:{dialogPage:{dialogs, messages}, profilePage:{posts}}} = props;
+       
+    const [postsJ, setPost] = useState(posts);
     const [messageDialog, setMessageDialog] = useState(messages);
-
-    const addMessage = (mes: string) => {
-        const newMes = {id: v1(), message: mes};
-        setMessageDialog([...messageDialog, newMes])
-    }
-    const collBackAddTask = (value:string) => setTask(addPost(postsJ, value))
-    const addPost = (posts:Array<PostType>, value:string) => {
-        const newPost = {id: v1(), message: value, likeCount: 0};
-        return [ ...posts, newPost];
-    }
+       
+    
+    
+    const collBackAddPost = (value:string) => setPost(dispatch(addPostActionCreator(value)));
+    const collBackAddMessage = (mes:string) => setMessageDialog(dispatch(addMessageActionCreator(mes)))
     
     return (
 
@@ -41,11 +40,11 @@ const App = () => {
                            exact />
                     <Route path='/profile' exact render={() => <ProfileComponent
                         posts={postsJ}
-                        addPost={collBackAddTask}/>}/>
+                        addPost={collBackAddPost}/>}/>
                     <Route path='/dialogs/:id?' exact  render ={() => <Dialogs
                     dialogs={dialogs}
                     messages={messageDialog}
-                    addMessage={addMessage}/>}/>
+                    addMessage={collBackAddMessage}/>}/>
                     </Switch>
                 </div>
             </div>
