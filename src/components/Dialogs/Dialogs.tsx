@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from "react";
 import s from './Dialogs.module.css'
-import { DialogType, MessageType } from '../../redux/state'
+import { DialogType, MessageType } from '../../redux/store'
 import {NavLink} from "react-router-dom";
 
 type DialogsType = {

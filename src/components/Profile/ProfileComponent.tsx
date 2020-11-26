@@ -1,7 +1,7 @@
 import React from "react";
 import classes from './ProfileComponent.module.css'
 import MyPosts from "./MyPosts/MyPosts";
-import {PostType} from "../../redux/state";
+import {PostType} from "../../redux/store";
 
 type ProfileProspType = {
     posts:Array<PostType>

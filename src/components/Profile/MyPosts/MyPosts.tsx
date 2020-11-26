@@ -1,20 +1,20 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from "react";
 import Posts from "./Post/Posts";
-import {PostType} from '../../../redux/state'
+import {PostType} from '../../../redux/store'
 import style from './MyPosts.module.css';
 type MyPostsType = {
-    posts:Array<PostType>
+    posts:Array<PostType>    
     addPost: (value:string ) => void
 }
-const MyPosts = (props:MyPostsType) => {
+const MyPosts = ({posts, addPost }:MyPostsType) => {
     const [value, setTitle] = useState('');
     const [error, setError] = useState<string | null>(null)
 
-
+    
 
     const callBackAddTask = () => {
         if (value.trim() !== ''){
-            props.addPost(value);
+            addPost(value);
 
         } else {
             setError('Title is required')
@@ -59,7 +59,7 @@ const MyPosts = (props:MyPostsType) => {
             </div>
 
             </div>
-            <Posts posts={props.posts}/>
+            <Posts posts={posts}/>
         </div>
     )
 }
