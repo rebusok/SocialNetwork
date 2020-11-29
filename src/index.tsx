@@ -4,11 +4,16 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store from './redux/reduxStore';
-console.log(store.getState())
-ReactDOM.render(<App 
-    state={store.getState()}
- dispatch={store.dispatch.bind(store)}
- store={store}
- />,  document.getElementById('root'));
+import {BrowserRouter} from "react-router-dom";
+import {Provider} from "./StoreContext";
+
+
+
+ReactDOM.render(
+    <BrowserRouter>
+        <Provider store={store}>
+            <App/>
+        </Provider>
+    </BrowserRouter>, document.getElementById('root'));
 
 serviceWorker.unregister();

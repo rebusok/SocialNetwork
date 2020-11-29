@@ -1,68 +1,53 @@
 import React, {ChangeEvent, useState} from "react";
-import s from './Dialogs.module.css'
-import { DialogType, MessageType } from '../../redux/store'
-import {NavLink} from "react-router-dom";
+import s from './Dialogs.module.css';
+import {addMessageActionCreator} from "../../redux/dialogReducer";
+import StoreContext from "../../StoreContext";
+import UsersDialog from "./usersDialog/UsersDialog";
+import ChatMessage from "./ChatMessage/ChatMessage";
 
 type DialogsType = {
-    dialogs: Array<DialogType>
-    messages: Array<MessageType>
-    addMessage: (message: string) => void
+
+    dispatch: (action:any) => any
 }
 
 
 const Dialogs= (props: DialogsType) => {
-    const {dialogs, messages} = props
-    const perosnLoaded  =  dialogs.map(({name, id}) => {
-            return (
-                <div key={id} className={s.item}>
-                    <div className={s.avatar}> </div>
-                    <NavLink to={'/dialogs/' + id}> {name}</NavLink>
-                </div>
-            )
-        });
-    const avaUrl = 'https://yt3.ggpht.com/a-/AAuE7mCbfWojLQOCaK9L9GFGYos67xBELhYnV0Rcuw=s800-mo-c-c0xffffffff-rj-k-no'
-    const messageDial = messages.map(({id, message}) => {
-        return(
-            <div key={id} className={s.wrap}>
-                <div className={s.person}>
-                    <div className={s.person_img}><img alt='ava' src={avaUrl}/></div>
-                    <div className={s.person_title}>My</div>
-                </div>
-                <div className={s.text}>{message}</div>
 
-            </div>
-        )
-    });
+
+
     const [value, setTitle] = useState('');
 
     const callBackAddTask = () => {
         if (value.trim() !== ''){
-            props.addMessage(value);
+            props.dispatch(addMessageActionCreator(value));
 
-        } 
+        }
         setTitle('');
     }
     const onTitleChangeHandler = (e:ChangeEvent<HTMLTextAreaElement>) => {
         setTitle(e.currentTarget.value);
     }
-    
+
 
     return(
         <div>
-            <div className={s.wrapper}>
-                <div className={s.names}>
-                    <div className={s.dialog_items}>
-                        {perosnLoaded}
-                    </div>
-                </div>
-                <div className={s.line}> </div>
-                <div className={s.message}>
-                    {messageDial}
-                </div>
-                
-            </div>
+
+                <StoreContext.Consumer>
+                    {
+                        (store) => {
+                            return (
+                                <div className={s.wrapper}>
+                                    <UsersDialog dialogs={store.getState().dialogReducer.dialogs}/>
+                                    <div className={s.line}> </div>
+                                    <ChatMessage messages={store.getState().dialogReducer.messages}/>
+                                </div>
+                            )
+                        }
+                    }
+
+                </StoreContext.Consumer>
             <div className={s.textarea_head}>
-                <textarea 
+                <textarea
                     className={s.textarea}
                     value={value}
                     onChange={onTitleChangeHandler} >
