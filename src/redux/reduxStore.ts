@@ -5,11 +5,12 @@ import dialogReducer from './dialogReducer';
 type  RootReduceType = typeof reducers;
 export type AppStateType = ReturnType<RootReduceType>
 const reducers = combineReducers({
-    profileReducer,
-    dialogReducer
+    profilePage:profileReducer,
+    dialogPage:dialogReducer
 });
 
 const store:any = createStore(reducers);
+
 
 
 export default store;

@@ -1,7 +1,4 @@
 
-import {v1} from "uuid";
-import profileReducer from './profileReducer';
-import dialogReducer from './dialogReducer';
 export type ActionType =
 addMessageActionCreatorType | addMessageActionCreator;
 
@@ -35,7 +32,7 @@ export type ProfilePageType = {
 export type DialogPageType = {
     dialogs: Array<DialogType>,
     messages: Array<MessageType>
-    newMessageBody: string
+    newMessageBody?: string
 }
 type SidebarType = {}
 export type RootStateType = {

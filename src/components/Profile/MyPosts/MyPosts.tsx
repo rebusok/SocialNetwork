@@ -2,21 +2,20 @@ import React, {ChangeEvent, useState, KeyboardEvent} from "react";
 import Posts from "./Post/Posts";
 import {PostType} from '../../../redux/store'
 import style from './MyPosts.module.css';
-import {addPostActionCreator} from "../../../redux/profileReducer";
+
 type MyPostsType = {
     posts:Array<PostType>
-    dispatch: (action:any) => any
+    callBackAddTask: (value:string)=> void
 }
 const MyPosts = (props:MyPostsType) => {
     const [value, setTitle] = useState('');
     const [error, setError] = useState<string | null>(null)
 
 
-
     const callBackAddTask = () => {
 
         if (value.trim() !== ''){
-            props.dispatch(addPostActionCreator(value))
+            props.callBackAddTask(value)
 
         } else {
             setError('Title is required')

@@ -1,13 +1,13 @@
 import React, {ChangeEvent, useState} from "react";
 import s from './Dialogs.module.css';
-import {addMessageActionCreator} from "../../redux/dialogReducer";
-import StoreContext from "../../StoreContext";
 import UsersDialog from "./usersDialog/UsersDialog";
 import ChatMessage from "./ChatMessage/ChatMessage";
+import {DialogPageType} from "../../redux/store";
 
-type DialogsType = {
 
-    dispatch: (action:any) => any
+
+type DialogsType = DialogPageType &{
+    callBackAddTask: (value:string) => void
 }
 
 
@@ -19,8 +19,7 @@ const Dialogs= (props: DialogsType) => {
 
     const callBackAddTask = () => {
         if (value.trim() !== ''){
-            props.dispatch(addMessageActionCreator(value));
-
+            props.callBackAddTask(value)
         }
         setTitle('');
     }
@@ -31,21 +30,12 @@ const Dialogs= (props: DialogsType) => {
 
     return(
         <div>
+            <div className={s.wrapper}>
+                <UsersDialog dialogs={props.dialogs}/>
+                <div className={s.line}> </div>
+                <ChatMessage messages={props.messages}/>
+            </div>
 
-                <StoreContext.Consumer>
-                    {
-                        (store) => {
-                            return (
-                                <div className={s.wrapper}>
-                                    <UsersDialog dialogs={store.getState().dialogReducer.dialogs}/>
-                                    <div className={s.line}> </div>
-                                    <ChatMessage messages={store.getState().dialogReducer.messages}/>
-                                </div>
-                            )
-                        }
-                    }
-
-                </StoreContext.Consumer>
             <div className={s.textarea_head}>
                 <textarea
                     className={s.textarea}
@@ -57,5 +47,7 @@ const Dialogs= (props: DialogsType) => {
         </div>
     )
 }
+
+
 
 export default Dialogs;

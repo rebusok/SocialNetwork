@@ -20,10 +20,11 @@ const profileReducer = (state: ProfilePageType = initialState, action: ActionTyp
     
     switch(action.type){
         case "ADD-POST":
-            
             const newPost = {id: v1(), message: action.post, likeCount: 0};
-            state.posts.push(newPost)
-            return state 
+            return {
+                ...state,
+                posts:[...state.posts, newPost]
+            }
         default: return state
     }
    
