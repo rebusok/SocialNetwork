@@ -1,8 +1,14 @@
 
-type ActionType = {
-    type: string
-    [key: string]: any
-}
+// type ActionType = {
+//     type: string
+//     [key: string]: any
+// }
+export type usersACTypes =
+    ReturnType<typeof unFollowAC>
+    | ReturnType<typeof followAC>
+    | ReturnType<typeof setUsersAC>
+
+
 
 type FollowUsersACType = {
     type: "FOLLOW"
@@ -34,7 +40,7 @@ export type UsersType ={
 }
 
 
-const usersReducer = (state:UsersPageType  = initialState, action: ActionType):UsersPageType => {
+const usersReducer = (state:UsersPageType  = initialState, action: usersACTypes):UsersPageType => {
 
     switch(action.type){
         case "FOLLOW":
