@@ -5,7 +5,7 @@ import s from './App.module.css';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import DialogContainer from "./components/Dialogs/DialogsContainer";
 import ProfileComponentContainer from "./components/Profile/ProfileComponentContainer";
-import Users from "./components/Users/Users";
+import UsersContainer from "./components/Users/UsersContainer";
 
 
 const App = () => {
@@ -27,7 +27,7 @@ const App = () => {
                             <DialogContainer/>
                         }/>
                         <Route path='/users' exact render={() =>
-                            <Users/>
+                            <UsersContainer/>
                         }/>
                     </Switch>
                 </div>
