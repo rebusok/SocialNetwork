@@ -1,24 +1,25 @@
 import React from 'react';
 import {UsersType} from "../../redux/usersReducer";
 import style from './Users.module.scss'
-import {v1} from "uuid";
+import avatar from '../../assets/image/react-javascript-library-redux-user-interface-tesseract.jpg'
 
 type usersPagesType = {
-    follow: (userId: string) => void
-    unFollow: (userId: string) => void
+    follow: (userId: number) => void
+    unFollow: (userId: number) => void
     setUsers: (users: Array<UsersType>) => void
     users: Array<UsersType>
 }
 
 
 const Users = (props: usersPagesType) => {
-    const users = [{id: v1(), usersPhotoUrl:'https://cdn.sm-news.ru/wp-content/uploads/2020/01/26/file38203555_6b12a257.jpg', followed:false, fullName: 'Yuriy', status: "learn React", location:{city: 'Moscow', country:'Russia'}},
-        {id: v1(), usersPhotoUrl:'https://cdn.sm-news.ru/wp-content/uploads/2020/01/26/file38203555_6b12a257.jpg', followed:true, fullName: 'Dmitriy', status: "learn React", location:{city: 'Minsk', country:'Belarus'}},
-        {id: v1(), usersPhotoUrl:'https://cdn.sm-news.ru/wp-content/uploads/2020/01/26/file38203555_6b12a257.jpg', followed:true, fullName: 'Sergey', status: "learn React", location:{city: 'Kiev', country:'Ukraine'}},
-        {id: v1(), usersPhotoUrl:'https://cdn.sm-news.ru/wp-content/uploads/2020/01/26/file38203555_6b12a257.jpg', followed:false, fullName: 'Masha', status: "learn React", location:{city: 'Vitebsk', country:'Belarus'}}]
-    if (props.users.length === 0){
-        props.setUsers(users)
-    }
+    // const getUsers = () => {
+    //     if (props.users.length === 0) {
+    //
+    //         axios.default.get('https://social-network.samuraijs.com/api/1.0/users').then((res: any) => {
+    //             props.setUsers(res.data.items)
+    //         })
+    //     }
+    // }
 
 
     return (
@@ -30,7 +31,8 @@ const Users = (props: usersPagesType) => {
                         <div className={style.Users} key={user.id}>
                             <div className={style.Users_item}>
                                 <div className={style.img_wrapper}>
-                                    <div className={style.img}><img src={user.usersPhotoUrl} alt="ava"/></div>
+                                    <div className={style.img}><img
+                                        src={user.photos.small !== null ? user.photos.small : avatar} alt="ava"/></div>
                                     <div className={style.follow}>
                                         {
                                             user.followed
@@ -45,12 +47,12 @@ const Users = (props: usersPagesType) => {
                                 </div>
                                 <div className={style.mes_wrapper}>
                                     <div className={style.name_wrapper}>
-                                        <div className={style.name}>{user.fullName}</div>
+                                        <div className={style.name}>{user.name}</div>
                                         <div className={style.status}>{user.status}</div>
                                     </div>
                                     <div className={style.city_wrapper}>
-                                        <div className={style.country}>{user.location.country}</div>
-                                        <div className={style.city}>{user.location.city}</div>
+                                        <div className={style.country}>{}</div>
+                                        <div className={style.city}>{}</div>
                                     </div>
                                 </div>
                             </div>

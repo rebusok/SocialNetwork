@@ -12,11 +12,11 @@ export type usersACTypes =
 
 type FollowUsersACType = {
     type: "FOLLOW"
-    userId:string
+    userId:number
 }
 type UnFollowUsersACType = {
     type: "UNFOLLOW"
-    userId:string
+    userId:number
 }
 type SetUsersACType = {
     type: "SET_USERS"
@@ -31,12 +31,19 @@ export type UsersPageType = {
     users: Array<UsersType>
 }
 export type UsersType ={
-    id:string
-    followed: boolean
-    fullName: string
+    name: string
+    id: number
+    uniqueUrlName?: string
+    photos: {
+        small?: string
+        large?: string
+    }
     status: string
-    usersPhotoUrl: string
-    location: {city:string, country:string}
+    "followed": boolean
+    location: {
+        city:string
+        country:string
+    }
 }
 
 
@@ -63,8 +70,8 @@ const usersReducer = (state:UsersPageType  = initialState, action: usersACTypes)
     }
 
 }
-export const followAC = (userId:string):FollowUsersACType => ({type:"FOLLOW", userId})
-export const unFollowAC = (userId:string):UnFollowUsersACType => ({type:"UNFOLLOW", userId})
+export const followAC = (userId:number):FollowUsersACType => ({type:"FOLLOW", userId})
+export const unFollowAC = (userId:number):UnFollowUsersACType => ({type:"UNFOLLOW", userId})
 export const setUsersAC = (users:Array<UsersType>):SetUsersACType => ({type:"SET_USERS", users})
 
 export default usersReducer;
