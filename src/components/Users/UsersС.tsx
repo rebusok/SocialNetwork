@@ -8,21 +8,51 @@ interface usersPagesType  {
     follow: (userId: number) => void
     unFollow: (userId: number) => void
     setUsers: (users: Array<UsersType>) => void
+    setTotalCount: (totalCount:number) => void
     users: Array<UsersType>
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
+    setCurrentPage: (currentPage:number) => void
 }
 
 export default class UsersC extends Component<usersPagesType, any> {
 
     componentDidMount() {
-        axios.default.get('https://social-network.samuraijs.com/api/1.0/users').then((res: any) => {
+        axios.default.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then((res: any) => {
             this.props.setUsers(res.data.items)
+            // this.props.setTotalCount(res.data.totalCount)
+            console.log(res.data)
         })
     }
-
+    onPageChanged = (pageNum:number) => {
+        this.props.setCurrentPage(pageNum)
+        axios.default.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNum}&count=${this.props.pageSize}`)
+            .then((response:any) => {
+                this.props.setUsers(response.data.items)
+            })
+        console.log(pageNum)
+    }
 
     render() {
+        let pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize)
+        let pages = []
+        for (let i = 1; i <= pagesCount; i++){
+            pages.push(i)
+        }
         return (
             <React.Fragment>
+
+                <div>
+                    {
+                        pages.map((p:number, inx) => {
+                            return <span key={p + inx + Math.random()}
+                                className={this.props.currentPage  === p ? style.selectPage : ''}
+                            onClick={() => {this.onPageChanged(p)}}>{p}</span>
+                        })
+                    }
+
+                </div>
                 {
                     this.props.users.map((user: UsersType) => {
                         return (
