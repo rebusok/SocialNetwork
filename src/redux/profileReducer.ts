@@ -1,10 +1,44 @@
-import {ProfilePageType } from './store';
 import {v1} from "uuid";
 
-type ActionType = {
-    type : "ADD-POST" | "ADD-MES";
-    post?: string
-    message?: string
+
+export enum ACTION_TYPE {
+    ADD_POST = 'SOC/PROFILE/ADD_POST',
+    SET_USER = 'SOC/PROFILE/SET_USER'
+
+}
+
+export type usersACTypes =
+    ReturnType<typeof AddTask>
+    | ReturnType<typeof SetUserProfile>
+
+type addPostType = {
+    type: ACTION_TYPE.ADD_POST
+    value: string
+}
+type setUserProfile = {
+    type: ACTION_TYPE.SET_USER
+    profile: ProfileType
+}
+export type ProfileType = {
+    aboutMe: string
+    contacts: {
+        facebook: string
+        website?: string
+        vk: string
+        twitter: string
+        instagram: string
+        youtube?: string
+        github: string
+        mainLink?: string
+    },
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    userId: number
+    photos: {
+        small?: string
+        large?: string
+    }
 }
 const initialState = {
     posts: [
@@ -13,27 +47,39 @@ const initialState = {
         {id: v1(), message: 'Blooo', likeCount: 1},
         {id: v1(), message: 'Learn run', likeCount: 14}
     ],
-    newPostText: 'hello'
-}
+    newPostText: 'hello',
 
-const profileReducer = (state: ProfilePageType = initialState, action: ActionType):ProfilePageType => {
-    
-    switch(action.type){
-        case "ADD-POST":
-            const newPost = {id: v1(), message: action.post, likeCount: 0};
+
+}
+type PostType = {
+    id: string
+    message: string
+    likeCount: number
+}
+type ProfilePageType = {
+    posts: Array<PostType>
+    newPostText: string
+    profile?: ProfileType
+}
+const profileReducer = (state: ProfilePageType = initialState, action: usersACTypes): ProfilePageType => {
+
+    switch (action.type) {
+        case ACTION_TYPE.ADD_POST:
+            const newPost = {id: v1(), message: action.value, likeCount: 0};
             return {
                 ...state,
-                posts:[...state.posts, newPost]
+                posts: [...state.posts, newPost]
             }
-        default: return state
+        case ACTION_TYPE.SET_USER:
+            return {
+                ...state,
+                profile: action.profile
+            }
+        default:
+            return state
     }
-   
-}
-export const addPostActionCreator = (value:string) => {
-    return {
-        type: "ADD-POST",
-        post: value
-    }
-}
 
+}
+export const AddTask = (value: string): addPostType => ({type: ACTION_TYPE.ADD_POST, value})
+export const SetUserProfile = (profile: ProfileType): setUserProfile => ({type: ACTION_TYPE.SET_USER, profile})
 export default profileReducer;

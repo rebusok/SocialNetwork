@@ -3,36 +3,56 @@ import {UsersType} from "../../redux/usersReducer";
 import style from './Users.module.scss'
 import avatar from '../../assets/image/react-javascript-library-redux-user-interface-tesseract.jpg'
 
+import { NavLink } from 'react-router-dom';
+
 type usersPagesType = {
+    totalUsersCount: number
+    users: Array<UsersType>
+    pageSize: number
+    currentPage: number
     follow: (userId: number) => void
     unFollow: (userId: number) => void
-    setUsers: (users: Array<UsersType>) => void
-    users: Array<UsersType>
+    onPageChanged: (pageNum: number) => void
+
 }
 
 
 const Users = (props: usersPagesType) => {
-    // const getUsers = () => {
-    //     if (props.users.length === 0) {
-    //
-    //         axios.default.get('https://social-network.samuraijs.com/api/1.0/users').then((res: any) => {
-    //             props.setUsers(res.data.items)
-    //         })
-    //     }
-    // }
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
+    let pages = []
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i)
+    }
 
 
     return (
 
         <React.Fragment>
+            <div className={style.list_users}>
+                {
+                    pages.map((p: number, inx) => {
+                        return <span key={p + inx + Math.random()}
+                                     className={props.currentPage === p ? style.selectPage : ''}
+                                     onClick={() => {
+                                         props.onPageChanged(p)
+                                     }}>{p}</span>
+                    })
+                }
+
+            </div>
             {
                 props.users.map((user: UsersType) => {
                     return (
                         <div className={style.Users} key={user.id}>
                             <div className={style.Users_item}>
                                 <div className={style.img_wrapper}>
-                                    <div className={style.img}><img
-                                        src={user.photos.small !== null ? user.photos.small : avatar} alt="ava"/></div>
+                                    <div className={style.img}>
+                                        <NavLink to={'/profile/' + user.id}>
+                                            <img
+                                                src={user.photos.small !== null ? user.photos.small : avatar}
+                                                alt="ava"/>
+                                        </NavLink>
+                                    </div>
                                     <div className={style.follow}>
                                         {
                                             user.followed

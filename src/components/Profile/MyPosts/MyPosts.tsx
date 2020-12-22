@@ -1,11 +1,11 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from "react";
 import Posts from "./Post/Posts";
-import {PostType} from '../../../redux/store'
 import style from './MyPosts.module.css';
+import {ProfileComponentType} from "../ProfileComponent";
 
-type MyPostsType = {
-    posts:Array<PostType>
-    callBackAddTask: (value:string)=> void
+interface MyPostsType extends ProfileComponentType  {
+
+
 }
 const MyPosts = (props:MyPostsType) => {
     const [value, setTitle] = useState('');
@@ -15,7 +15,7 @@ const MyPosts = (props:MyPostsType) => {
     const callBackAddTask = () => {
 
         if (value.trim() !== ''){
-            props.callBackAddTask(value)
+            props.AddTask(value)
 
         } else {
             setError('Title is required')

@@ -1,23 +1,20 @@
 import ProfileComponent from "./ProfileComponent";
-import {addPostActionCreator} from "../../redux/profileReducer";
+
 import {connect} from "react-redux";
+import {AddTask, SetUserProfile} from "../../redux/profileReducer";
+import {AppStateType} from "../../redux/reduxStore";
 
 
-const mapStateToProps = (state:any) => {
+const mapStateToProps = (state:AppStateType) => {
     return {
-        posts: state.profilePage.posts
+        posts: state.profilePage.posts,
+        profile: state.profilePage.profile
     }
 }
 
-const mapDispatchToProps = (dispatch:any) => {
-    return {
-        callBackAddTask: (value:any) => {
-            if (value.trim() !== ''){
-                dispatch(addPostActionCreator(value));
-            }
 
-        }
-    }
-}
-const ProfileComponentContainer = connect(mapStateToProps, mapDispatchToProps)(ProfileComponent)
-export default ProfileComponentContainer;
+
+export default connect(mapStateToProps, {
+    AddTask,
+    SetUserProfile
+})(ProfileComponent);

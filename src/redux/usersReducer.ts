@@ -8,15 +8,17 @@ export enum ACTION_TYPE {
     UNFOLLOW='SOC/UNFOLLOW',
     SET_USERS = 'SOC/SET_USERS',
     SET_TOTAL_COUNT = 'SOC/SET_TOTAL_COUNT',
-    SET_CURRENT_PAGE = 'SOC/SET_CURRENT_PAGE'
+    SET_CURRENT_PAGE = 'SOC/SET_CURRENT_PAGE',
+    TOGGLE_LOADING = 'SOC/TOGGLE_LOADING'
 }
 
 export type usersACTypes =
-    ReturnType<typeof unFollowAC>
-    | ReturnType<typeof followAC>
-    | ReturnType<typeof setUsersAC>
-    | ReturnType<typeof setTotalCountAC>
-    | ReturnType<typeof setCurrentPageAC>
+    ReturnType<typeof unFollow>
+    | ReturnType<typeof follow>
+    | ReturnType<typeof setUsers>
+    | ReturnType<typeof setTotalCount>
+    | ReturnType<typeof setCurrentPage>
+    | ReturnType<typeof toggleLoading>
 
 
 
@@ -40,12 +42,17 @@ type SetCurrentPageACType = {
     type: ACTION_TYPE.SET_CURRENT_PAGE
     currentPage:number
 }
+type ToggleLoadingACType = {
+    type: ACTION_TYPE.TOGGLE_LOADING
+    loading:boolean
+}
 
 const initialState = {
     users: [],
     pageSize: 8,
     totalUsersCount: 36,
-    currentPage: 1
+    currentPage: 1,
+    loading: true
 }
 
 export type UsersPageType = {
@@ -53,6 +60,7 @@ export type UsersPageType = {
     pageSize: number
     totalUsersCount: number
     currentPage: number
+    loading: boolean
 }
 export type UsersType ={
     name: string
@@ -94,13 +102,16 @@ const usersReducer = (state:UsersPageType  = initialState, action: usersACTypes)
             return {...state, totalUsersCount:action.totalCount}
         case ACTION_TYPE.SET_CURRENT_PAGE:
             return {...state, currentPage: action.currentPage}
+        case ACTION_TYPE.TOGGLE_LOADING:
+            return {...state, loading: action.loading}
         default: return state
     }
 
 }
-export const followAC = (userId:number):FollowUsersACType => ({type:ACTION_TYPE.FOLLOW, userId})
-export const unFollowAC = (userId:number):UnFollowUsersACType => ({type:ACTION_TYPE.UNFOLLOW, userId})
-export const setUsersAC = (users:Array<UsersType>):SetUsersACType => ({type:ACTION_TYPE.SET_USERS, users})
-export const setTotalCountAC  = (totalCount: number):SetTotalCountACType => ({type:ACTION_TYPE.SET_TOTAL_COUNT, totalCount})
-export const setCurrentPageAC  = (currentPage: number):SetCurrentPageACType => ({type:ACTION_TYPE.SET_CURRENT_PAGE, currentPage})
+export const follow= (userId:number):FollowUsersACType => ({type:ACTION_TYPE.FOLLOW, userId})
+export const unFollow = (userId:number):UnFollowUsersACType => ({type:ACTION_TYPE.UNFOLLOW, userId})
+export const setUsers = (users:Array<UsersType>):SetUsersACType => ({type:ACTION_TYPE.SET_USERS, users})
+export const setTotalCount  = (totalCount: number):SetTotalCountACType => ({type:ACTION_TYPE.SET_TOTAL_COUNT, totalCount})
+export const setCurrentPage  = (currentPage: number):SetCurrentPageACType => ({type:ACTION_TYPE.SET_CURRENT_PAGE, currentPage})
+export const toggleLoading  = (loading: boolean):ToggleLoadingACType => ({type:ACTION_TYPE.TOGGLE_LOADING, loading})
 export default usersReducer;
