@@ -1,0 +1,64 @@
+
+.content_header_img {
+	img {
+		grid-area: content;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		max-height: 200px;
+	}
+}
+.user {
+	display: flex;
+	justify-content: center;
+	max-width: 60%;
+	padding: 10px 20px;
+	.avatar_wrapper{
+		margin-right: 10%;
+		.avatar {
+			width: 101px;
+			border-radius: 10%;
+			overflow: hidden;
+
+			img {
+
+			}
+		}
+	}
+	.user_prof {
+		min-width: 40%;
+		.name{
+			text-align: center;
+			font-weight: bold;
+		}
+		.status{
+
+		}
+		.desc{
+			.contact{
+				display: flex;
+				.contact_title{
+					margin-right: 10px;
+				}
+				.contact_descr{
+
+				}
+			}
+			.jobs{
+				.jobs_wrapper{
+					display: flex;
+					.jobs_title{
+						margin-right: 10px;
+					}
+					.jobs_bull{
+
+					}
+				}
+				.jobs_desr{
+
+				}
+			}
+		}
+	}
+}

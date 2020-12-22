@@ -50,7 +50,7 @@ type ToggleLoadingACType = {
 const initialState = {
     users: [],
     pageSize: 8,
-    totalUsersCount: 36,
+    totalUsersCount: 50,
     currentPage: 1,
     loading: true
 }

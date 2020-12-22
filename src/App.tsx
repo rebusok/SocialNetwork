@@ -21,7 +21,7 @@ const App = () => {
                         <Route path='/'
                                render={() => <h2>Welcome to Soc</h2>}
                                exact/>
-                        <Route path='/profile' exact render={() => <ProfileComponentContainer
+                        <Route path='/profile/:userId?'  render={() => <ProfileComponentContainer
                         />}/>
                         <Route path='/dialogs/:id?' exact render={() =>
                             <DialogContainer/>
