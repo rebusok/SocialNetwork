@@ -9,3 +9,7 @@
     height: 80px;
     width: 100px;
 }
+.login_block  a {
+    color: #fff;
+    text-decoration: none;
+}

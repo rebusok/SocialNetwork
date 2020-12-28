@@ -48,8 +48,6 @@ const initialState = {
         {id: v1(), message: 'Learn run', likeCount: 14}
     ],
     newPostText: 'hello',
-
-
 }
 type PostType = {
     id: string

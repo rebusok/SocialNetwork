@@ -34,23 +34,33 @@ interface usersPagesType {
 class UsersAPIComponent extends Component<usersPagesType, any> {
 
     componentDidMount() {
-        axios.default.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then((res: any) => {
+        axios.default.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,{
+            withCredentials:true,
+            headers:{
+                "API-KEY": "be583272-b0d8-4135-8f53-6b8fcf5092e2"
+            }
+        }).then((res: any) => {
             this.props.setUsers(res.data.items)
             this.props.toggleLoading(false)
             // this.props.setTotalCount(res.data.totalCount)
-            console.log(res.data)
+
         })
     }
 
     onPageChanged = (pageNum: number) => {
         this.props.setCurrentPage(pageNum)
         this.props.toggleLoading(true)
-        axios.default.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNum}&count=${this.props.pageSize}`)
+        axios.default.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNum}&count=${this.props.pageSize}`,{
+            withCredentials:true,
+            headers:{
+                "API-KEY": "be583272-b0d8-4135-8f53-6b8fcf5092e2"
+            }
+        })
             .then((response: any) => {
                 this.props.setUsers(response.data.items)
                 this.props.toggleLoading(false)
             })
-        console.log(pageNum)
+
     }
 
     render() {
