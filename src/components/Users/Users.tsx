@@ -4,17 +4,20 @@ import style from './Users.module.scss'
 import avatar from '../../assets/image/react-javascript-library-redux-user-interface-tesseract.jpg'
 
 import { NavLink } from 'react-router-dom';
-import * as axios from "axios";
 
-type usersPagesType = {
+import API from '../../API/API';
+
+export interface usersPagesType  {
     totalUsersCount: number
     users: Array<UsersType>
     pageSize: number
     currentPage: number
     follow: (userId: number) => void
     unFollow: (userId: number) => void
-    onPageChanged: (pageNum: number) => void
-
+    onPageChanged?: (pageNum: number) => void
+    followIsProgress:Array<number>
+    toggleFollowProgress: (followProgress: Array<number>, userId:number, loading:boolean) => void
+    loading: boolean
 }
 
 
@@ -35,7 +38,7 @@ const Users = (props: usersPagesType) => {
                         return <span key={p + inx + Math.random()}
                                      className={props.currentPage === p ? style.selectPage : ''}
                                      onClick={() => {
-                                         props.onPageChanged(p)
+                                         props.onPageChanged && props.onPageChanged(p)
                                      }}>{p}</span>
                     })
                 }
@@ -57,29 +60,27 @@ const Users = (props: usersPagesType) => {
                                     <div className={style.follow}>
                                         {
                                             user.followed
-                                                ? <button onClick={() => {
-                                                    axios.default.delete(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {
-                                                        withCredentials:true,
-                                                        headers:{
-                                                            "API-KEY": "be583272-b0d8-4135-8f53-6b8fcf5092e2"
-                                                        }
-                                                    }).then((res:any) => {
-                                                        if(res.data.resultCode === 0){
+                                                ? <button disabled={props.followIsProgress.some(id => id === user.id)} onClick={() => {
+
+                                                    props.toggleFollowProgress(props.followIsProgress, user.id, true)
+
+                                                    API.Unfollow(user.id)
+                                                    .then((res:any) => {
+                                                        if(res.resultCode === 0){
                                                             props.unFollow(user.id)
+                                                            props.toggleFollowProgress(props.followIsProgress, user.id, false)
                                                         }
                                                         console.log(res)
                                                     })
 
                                                 }}>Unfollow</button>
-                                                : <button onClick={() => {
-                                                    axios.default.post(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`,{},{
-                                                        withCredentials:true,
-                                                        headers:{
-                                                            "API-KEY": "be583272-b0d8-4135-8f53-6b8fcf5092e2"
-                                                        }
-                                                    }).then((res: any) => {
-                                                        if(res.data.resultCode === 0){
+                                                : <button disabled={props.followIsProgress.some(id => id === user.id)} onClick={() => {
+                                                    props.toggleFollowProgress(props.followIsProgress, user.id, true)
+                                                    API.Follow(user.id, {})
+                                                    .then((res: any) => {
+                                                        if(res.resultCode === 0){
                                                             props.follow(user.id)
+                                                            props.toggleFollowProgress(props.followIsProgress, user.id, false)
                                                         }
 
                                                         console.log(res)
