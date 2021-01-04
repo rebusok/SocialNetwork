@@ -1,3 +1,4 @@
+import API from "../API/API";
 
 export enum ACTION_TYPE {
     SET_USER_DATA = 'SOC/AUTH/SET_USER_DATA',
@@ -49,5 +50,13 @@ const AuthReducer = (state: AuthType = initialState, action: authACTypes) => {
 }
 
 export const SetUserData = (data: DataUserType): SetUserData => ({type:ACTION_TYPE.SET_USER_DATA, data})
+
+export const SetUserDataThunk = () => (dispatch:any) => {
+    API.authMe().then((res: any) => {
+        dispatch(SetUserData(res.data))
+        console.log(res)
+    })
+}
+
 export default AuthReducer;
 

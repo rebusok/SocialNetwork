@@ -3,20 +3,19 @@ import {UsersType} from "../../redux/usersReducer";
 import style from './Users.module.scss'
 import avatar from '../../assets/image/react-javascript-library-redux-user-interface-tesseract.jpg'
 
-import { NavLink } from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
-import API from '../../API/API';
 
-export interface usersPagesType  {
+
+export interface usersPagesType {
     totalUsersCount: number
     users: Array<UsersType>
     pageSize: number
     currentPage: number
-    follow: (userId: number) => void
-    unFollow: (userId: number) => void
+    unFollowThunk: (userId: number) => void
+    followThunk: (userId: number) => void
     onPageChanged?: (pageNum: number) => void
-    followIsProgress:Array<number>
-    toggleFollowProgress: (followProgress: Array<number>, userId:number, loading:boolean) => void
+    followIsProgress: Array<number>
     loading: boolean
 }
 
@@ -60,34 +59,14 @@ const Users = (props: usersPagesType) => {
                                     <div className={style.follow}>
                                         {
                                             user.followed
-                                                ? <button disabled={props.followIsProgress.some(id => id === user.id)} onClick={() => {
-
-                                                    props.toggleFollowProgress(props.followIsProgress, user.id, true)
-
-                                                    API.Unfollow(user.id)
-                                                    .then((res:any) => {
-                                                        if(res.resultCode === 0){
-                                                            props.unFollow(user.id)
-                                                            props.toggleFollowProgress(props.followIsProgress, user.id, false)
-                                                        }
-                                                        console.log(res)
-                                                    })
-
-                                                }}>Unfollow</button>
-                                                : <button disabled={props.followIsProgress.some(id => id === user.id)} onClick={() => {
-                                                    props.toggleFollowProgress(props.followIsProgress, user.id, true)
-                                                    API.Follow(user.id, {})
-                                                    .then((res: any) => {
-                                                        if(res.resultCode === 0){
-                                                            props.follow(user.id)
-                                                            props.toggleFollowProgress(props.followIsProgress, user.id, false)
-                                                        }
-
-                                                        console.log(res)
-                                                    })
-
-
-                                                }}>Follow</button>
+                                                ? <button
+                                                    disabled={props.followIsProgress.some(id => id === user.id)}
+                                                    onClick={() => props.unFollowThunk(user.id)}
+                                                >Unfollow</button>
+                                                : <button
+                                                    disabled={props.followIsProgress.some(id => id === user.id)}
+                                                    onClick={() => props.followThunk(user.id)}
+                                                >Follow</button>
                                         }
                                     </div>
                                 </div>
@@ -107,8 +86,8 @@ const Users = (props: usersPagesType) => {
                 })
             }
 
-        </React.Fragment>
-    );
-};
+                </React.Fragment>
+                );
+            };
 
 export default Users;

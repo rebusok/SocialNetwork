@@ -2,6 +2,8 @@
 //     type: string
 //     [key: string]: any
 // }
+import API from "../API/API";
+
 export enum ACTION_TYPE {
     FOLLOW = 'SOC/FOLLOW',
     UNFOLLOW = 'SOC/UNFOLLOW',
@@ -48,7 +50,7 @@ type ToggleLoadingACType = {
 }
 type ToggleFollowProgressACType = {
     type: ACTION_TYPE.TOGGLE_FOLLOW_PROGRESS
-    followIsProgress: Array<number>
+
     userId:number
     loading: boolean
 }
@@ -136,10 +138,47 @@ export const setCurrentPage = (currentPage: number): SetCurrentPageACType => ({
     currentPage
 })
 export const toggleLoading = (loading: boolean): ToggleLoadingACType => ({type: ACTION_TYPE.TOGGLE_LOADING, loading})
-export const toggleFollowProgress = (followIsProgress: Array<number>, userId:number, loading:boolean): ToggleFollowProgressACType => ({
+export const toggleFollowProgress = (userId:number, loading:boolean): ToggleFollowProgressACType => ({
     type: ACTION_TYPE.TOGGLE_FOLLOW_PROGRESS,
-    followIsProgress,
     userId,
     loading
 })
+
+
+ export const getUsersThunkCreator = (pageSize:number, currentPage:number) => (dispatch:any) => {
+     dispatch(toggleLoading(true))
+     dispatch(setCurrentPage(currentPage))
+
+    API.getUsers(currentPage, pageSize)
+        .then((res: any) => {
+            dispatch(setUsers(res.items))
+            dispatch(toggleLoading(false))
+            // this.props.setTotalCount(res.data.totalCount)
+
+        })
+}
+
+export const followThunk = (userId:number) => (dispatch:any) => {
+    dispatch(toggleFollowProgress(userId, true))
+    API.Follow(userId, {})
+        .then((res: any) => {
+            if(res.resultCode === 0){
+                dispatch(follow(userId))
+                dispatch(toggleFollowProgress( userId, false))
+            }
+
+            console.log(res)
+        })
+}
+export const unFollowThunk = (userId:number) => (dispatch:any) => {
+    dispatch(toggleFollowProgress( userId, true))
+    API.Unfollow(userId)
+        .then((res:any) => {
+            if(res.resultCode === 0){
+                dispatch(unFollow(userId))
+                dispatch(toggleFollowProgress(userId, false))
+            }
+            console.log(res)
+        })
+}
 export default usersReducer;

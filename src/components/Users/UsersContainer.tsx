@@ -1,52 +1,30 @@
 import {connect} from "react-redux";
-
 import {
-    follow,
-    setCurrentPage,
-    setTotalCount,
-    setUsers, toggleFollowProgress,
-    toggleLoading,
-    unFollow,
-    UsersType
+    followThunk, getUsersThunkCreator,
+     unFollowThunk,
 } from "../../redux/usersReducer";
-
 import React, {Component} from "react";
-
 import Users, {usersPagesType} from "./Users";
 import Spinner from "../UI/Loader/Spinner/Spinner";
 import {AppStateType} from "../../redux/reduxStore";
-import API from "../../API/API";
+
 
 
 interface usersPagesContainerType extends usersPagesType {
-    setUsers: (users: Array<UsersType>) => void
-    setTotalCount: (totalCount: number) => void
-    setCurrentPage: (currentPage: number) => void
-
-    toggleLoading: (loading: boolean) => void
+    getUsers: (pageSize: number, currentPage: number) => void
 }
 
 class UsersAPIComponent extends Component<usersPagesContainerType, any> {
 
     componentDidMount() {
-        API.getUsers(this.props.currentPage, this.props.pageSize)
-            .then((res: any) => {
-                this.props.setUsers(res.items)
-                this.props.toggleLoading(false)
-                // this.props.setTotalCount(res.data.totalCount)
-
-            })
+        const {getUsers, pageSize, currentPage} = this.props
+        getUsers( pageSize, currentPage)
     }
 
     onPageChanged = (pageNum: number) => {
-        this.props.setCurrentPage(pageNum)
-        this.props.toggleLoading(true)
-        API.onPageChanged(pageNum, this.props.pageSize)
-            .then((response: any) => {
-                this.props.setUsers(response.items)
-                this.props.toggleLoading(false)
-            })
+        const {getUsers, pageSize} = this.props
 
+        getUsers( pageSize, pageNum)
     }
 
     render() {
@@ -55,11 +33,11 @@ class UsersAPIComponent extends Component<usersPagesContainerType, any> {
             totalUsersCount,
             pageSize,
             currentPage,
-            follow,
-            unFollow,
             loading,
             followIsProgress,
-            toggleFollowProgress
+
+            followThunk,
+            unFollowThunk
         } = this.props
         return <>
             {loading ? <Spinner/> : <Users
@@ -67,12 +45,11 @@ class UsersAPIComponent extends Component<usersPagesContainerType, any> {
                 totalUsersCount={totalUsersCount}
                 pageSize={pageSize}
                 currentPage={currentPage}
-                follow={follow}
-                unFollow={unFollow}
                 onPageChanged={this.onPageChanged}
                 followIsProgress={followIsProgress}
-                toggleFollowProgress={toggleFollowProgress}
                 loading={loading}
+                unFollowThunk={unFollowThunk}
+                followThunk={followThunk}
             />}
 
         </>
@@ -94,11 +71,7 @@ const mapStateToProps = (state: AppStateType) => {
 
 
 export default connect(mapStateToProps, {
-    follow,
-    unFollow,
-    setUsers,
-    setTotalCount,
-    setCurrentPage,
-    toggleLoading,
-    toggleFollowProgress
+    followThunk,
+    unFollowThunk,
+    getUsers:getUsersThunkCreator
 })(UsersAPIComponent);

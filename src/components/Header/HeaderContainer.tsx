@@ -3,22 +3,19 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/reduxStore";
 import Header from "./Header";
-import {AuthType, DataUserType, SetUserData} from "../../redux/authReducer";
+import {AuthType, SetUserDataThunk} from "../../redux/authReducer";
 
-import API from "../../API/API";
+
 
 
 export interface HeaderContainerTypes {
     auth: AuthType
-    SetUserData?: (data: DataUserType) => void
+    SetUserDataThunk?: () => void
 }
 
 class HeaderContainer extends Component<HeaderContainerTypes, any>{
     componentDidMount() {
-        API.authMe().then((res: any) => {
-            this.props.SetUserData && this.props.SetUserData(res.data)
-            console.log(res)
-        })
+        this.props.SetUserDataThunk && this.props.SetUserDataThunk()
     }
 
     render() {
@@ -38,5 +35,5 @@ const mapStateToProps = (state:AppStateType) => {
 
 
 export default connect(mapStateToProps, {
-    SetUserData
+    SetUserDataThunk
 })(HeaderContainer)

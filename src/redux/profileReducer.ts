@@ -1,4 +1,5 @@
 import {v1} from "uuid";
+import API from "../API/API";
 
 
 export enum ACTION_TYPE {
@@ -80,4 +81,12 @@ const profileReducer = (state: ProfilePageType = initialState, action: usersACTy
 }
 export const AddTask = (value: string): addPostType => ({type: ACTION_TYPE.ADD_POST, value})
 export const SetUserProfile = (profile: ProfileType): setUserProfile => ({type: ACTION_TYPE.SET_USER, profile})
+
+export const SetUserProfileThunk = (userId:string) => (dispatch:any) => {
+
+    API.setUsersProfile(userId).then(res => {
+        console.log(res)
+        dispatch(SetUserProfile(res))
+    })
+}
 export default profileReducer;

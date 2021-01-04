@@ -1,7 +1,7 @@
 import ProfileComponent from "./ProfileComponent";
 
 import {connect} from "react-redux";
-import {AddTask, SetUserProfile} from "../../redux/profileReducer";
+import {AddTask, SetUserProfileThunk} from "../../redux/profileReducer";
 import {AppStateType} from "../../redux/reduxStore";
 import {withRouter} from "react-router";
 
@@ -17,5 +17,5 @@ const mapStateToProps = (state:AppStateType) => {
 
 export default connect(mapStateToProps, {
     AddTask,
-    SetUserProfile
+    SetUserProfileThunk
 })(withRouter(ProfileComponent));
