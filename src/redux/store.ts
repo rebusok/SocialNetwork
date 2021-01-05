@@ -1,4 +1,4 @@
-import {ActionType} from "./dialogReducer";
+
 
 
 export type MessageType = {
@@ -24,18 +24,7 @@ export type DialogPageType = {
     messages: Array<MessageType>
     newMessageBody?: string
 }
-type SidebarType = {}
-export type RootStateType = {
-    profilePage:ProfilePageType;
-    dialogPage:DialogPageType
-    sidebar:SidebarType
-}
-export type RootStoreType = {
-    _state: RootStateType
-    rerenderEntireTree: () => void       
-    getState: () => RootStateType
-    dispatch: (action:ActionType) =>  any
-}
+
 // const store:RootStoreType = {
 //     _state:{
 //         profilePage: {

@@ -1,6 +1,8 @@
 import {v1} from "uuid";
 import API from "../API/API";
-import {Dispatch} from "redux";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "./reduxStore";
+
 
 
 export enum ACTION_TYPE {
@@ -61,7 +63,7 @@ type ProfilePageType = {
     newPostText: string
     profile?: ProfileType
 }
-type DispatchType = Dispatch<ProfileACTypes>
+type ThunkTypesProfile  = ThunkAction<void, AppStateType, unknown, ProfileACTypes>
 const profileReducer = (state: ProfilePageType = initialState, action: ProfileACTypes): ProfilePageType => {
 
     switch (action.type) {
@@ -81,10 +83,11 @@ const profileReducer = (state: ProfilePageType = initialState, action: ProfileAC
     }
 
 }
+
 export const AddTask = (value: string): addPostType => ({type: ACTION_TYPE.ADD_POST, value})
 export const SetUserProfile = (profile: ProfileType): setUserProfile => ({type: ACTION_TYPE.SET_USER, profile})
 
-export const SetUserProfileThunk = (userId: string) => (dispatch: DispatchType) => {
+export const SetUserProfileThunk = (userId: string):ThunkTypesProfile => (dispatch) => {
 
     API.setUsersProfile(userId).then(res => {
         console.log(res)

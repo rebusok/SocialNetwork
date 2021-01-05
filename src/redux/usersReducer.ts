@@ -1,9 +1,6 @@
-// type ActionType = {
-//     type: string
-//     [key: string]: any
-// }
 import API from "../API/API";
-import {Dispatch} from "redux";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "./reduxStore";
 
 export enum ACTION_TYPE {
     FOLLOW = 'SOC/FOLLOW',
@@ -144,9 +141,9 @@ export const toggleFollowProgress = (userId:number, loading:boolean): ToggleFoll
     userId,
     loading
 })
-type DispatchType = Dispatch<usersACTypes>
 
- export const getUsersThunkCreator = (pageSize:number, currentPage:number) => (dispatch:DispatchType) => {
+type ThunkTypesUser  = ThunkAction<void, AppStateType, unknown, usersACTypes>
+ export const getUsersThunkCreator = (pageSize:number, currentPage:number):ThunkTypesUser => (dispatch) => {
      dispatch(toggleLoading(true))
      dispatch(setCurrentPage(currentPage))
 
@@ -160,7 +157,7 @@ type DispatchType = Dispatch<usersACTypes>
         })
 }
 
-export const followThunk = (userId:number) => (dispatch:DispatchType) => {
+export const followThunk = (userId:number):ThunkTypesUser => (dispatch) => {
     dispatch(toggleFollowProgress(userId, true))
     API.Follow(userId, {})
         .then((res: any) => {
@@ -172,7 +169,7 @@ export const followThunk = (userId:number) => (dispatch:DispatchType) => {
             console.log(res)
         })
 }
-export const unFollowThunk = (userId:number) => (dispatch:DispatchType) => {
+export const unFollowThunk = (userId:number):ThunkTypesUser => (dispatch) => {
     dispatch(toggleFollowProgress( userId, true))
     API.Unfollow(userId)
         .then((res:any) => {
