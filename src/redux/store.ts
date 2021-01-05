@@ -1,16 +1,6 @@
+import {ActionType} from "./dialogReducer";
 
-export type ActionType =
-addMessageActionCreatorType | addMessageActionCreator;
 
-export type addMessageActionCreatorType = {
-    type: "ADD_POST"
-    message: string
-
-}
-export type addMessageActionCreator = {
-    type: "ADD-MES",
-    message: string
-}
 export type MessageType = {
     id: string;
     message: string | undefined

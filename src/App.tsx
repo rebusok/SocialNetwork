@@ -6,6 +6,7 @@ import DialogContainer from "./components/Dialogs/DialogsContainer";
 import ProfileComponentContainer from "./components/Profile/ProfileComponentContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import Login from './components/Login/Login';
 
 
 const App = () => {
@@ -28,6 +29,9 @@ const App = () => {
                         }/>
                         <Route path='/users' exact render={() =>
                             <UsersContainer/>
+                        }/>
+                        <Route path='/login' exact render={() =>
+                            <Login/>
                         }/>
                     </Switch>
                 </div>

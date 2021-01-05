@@ -9,7 +9,8 @@ import {withRouter} from "react-router";
 const mapStateToProps = (state:AppStateType) => {
     return {
         posts: state.profilePage.posts,
-        profile: state.profilePage.profile
+        profile: state.profilePage.profile,
+        isAuth: state.auth.isAuth
     }
 }
 

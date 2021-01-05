@@ -1,9 +1,9 @@
 
-import { ActionType} from './store';
 
 
 
-const sidebarReducer = (state: any, action: ActionType) => {
+
+const sidebarReducer = (state: any, action: any) => {
     return state
 }
 

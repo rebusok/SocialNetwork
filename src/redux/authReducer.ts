@@ -1,11 +1,12 @@
 import API from "../API/API";
+import {Dispatch} from "redux";
 
 export enum ACTION_TYPE {
     SET_USER_DATA = 'SOC/AUTH/SET_USER_DATA',
 }
 export type authACTypes =
     ReturnType<typeof SetUserData>
-
+type authDispatchType = Dispatch<authACTypes>
 
 const initialState = {
     resultCode: null,
@@ -51,9 +52,11 @@ const AuthReducer = (state: AuthType = initialState, action: authACTypes) => {
 
 export const SetUserData = (data: DataUserType): SetUserData => ({type:ACTION_TYPE.SET_USER_DATA, data})
 
-export const SetUserDataThunk = () => (dispatch:any) => {
+export const SetUserDataThunk = () => (dispatch:authDispatchType) => {
     API.authMe().then((res: any) => {
-        dispatch(SetUserData(res.data))
+        if (res.resultCode === 0){
+            dispatch(SetUserData(res.data))
+        }
         console.log(res)
     })
 }

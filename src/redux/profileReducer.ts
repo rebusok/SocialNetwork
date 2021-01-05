@@ -1,5 +1,6 @@
 import {v1} from "uuid";
 import API from "../API/API";
+import {Dispatch} from "redux";
 
 
 export enum ACTION_TYPE {
@@ -8,7 +9,7 @@ export enum ACTION_TYPE {
 
 }
 
-export type usersACTypes =
+export type ProfileACTypes =
     ReturnType<typeof AddTask>
     | ReturnType<typeof SetUserProfile>
 
@@ -60,7 +61,8 @@ type ProfilePageType = {
     newPostText: string
     profile?: ProfileType
 }
-const profileReducer = (state: ProfilePageType = initialState, action: usersACTypes): ProfilePageType => {
+type DispatchType = Dispatch<ProfileACTypes>
+const profileReducer = (state: ProfilePageType = initialState, action: ProfileACTypes): ProfilePageType => {
 
     switch (action.type) {
         case ACTION_TYPE.ADD_POST:
@@ -82,7 +84,7 @@ const profileReducer = (state: ProfilePageType = initialState, action: usersACTy
 export const AddTask = (value: string): addPostType => ({type: ACTION_TYPE.ADD_POST, value})
 export const SetUserProfile = (profile: ProfileType): setUserProfile => ({type: ACTION_TYPE.SET_USER, profile})
 
-export const SetUserProfileThunk = (userId:string) => (dispatch:any) => {
+export const SetUserProfileThunk = (userId: string) => (dispatch: DispatchType) => {
 
     API.setUsersProfile(userId).then(res => {
         console.log(res)

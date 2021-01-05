@@ -4,20 +4,22 @@ import MyPosts from "./MyPosts/MyPosts";
 import {PostType} from "../../redux/store";
 import {ProfileType} from "../../redux/profileReducer";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import {RouteComponentProps} from "react-router";
+import {Redirect, RouteComponentProps} from "react-router";
 
 
 export interface ProfileComponentType extends RouteComponentProps<MatchParams> {
     posts: Array<PostType>
-    AddTask: (value:string) => void
+    AddTask: (value: string) => void
     profile?: ProfileType
-    SetUserProfileThunk: (userId:string) => void
-}
-interface MatchParams {
-    userId: string;
+    SetUserProfileThunk: (userId: string) => void
+    isAuth: boolean
 }
 
-export default  class  ProfileComponent extends Component<ProfileComponentType, any>{
+interface MatchParams {
+    userId: string
+}
+
+export default class ProfileComponent extends Component<ProfileComponentType, any> {
 
     componentDidMount() {
         let userId = this.props.match.params.userId;
@@ -28,16 +30,21 @@ export default  class  ProfileComponent extends Component<ProfileComponentType, 
     }
 
     render() {
-        return (
-            <div className={classes.content}>
-                <ProfileInfo
-                    profile={this.props.profile}/>
-                <MyPosts
+        if (this.props.isAuth) {
+            return (
+                <div className={classes.content}>
+                    <ProfileInfo
+                        profile={this.props.profile}/>
+                    <MyPosts
 
-                    {...this.props}
-                />
-            </div>
-        )
+                        {...this.props}
+                    />
+                </div>
+            )
+        } else {
+            return <Redirect to={'/login'}/>
+        }
+
     }
 
 }
