@@ -1,22 +1,32 @@
 import ProfileComponent from "./ProfileComponent";
-
 import {connect} from "react-redux";
-import {AddTask, SetUserProfileThunk} from "../../redux/profileReducer";
+import {
+    AddTask,
+    setProfileStatusThunk,
+    SetUserProfileThunk,
+    updateProfileStatusThunk
+} from "../../redux/profileReducer";
 import {AppStateType} from "../../redux/reduxStore";
 import {withRouter} from "react-router";
-
+import RedirectHoc from "../../HOC/RedirectHoc";
+import { compose } from "redux";
+import React from "react";
 
 const mapStateToProps = (state:AppStateType) => {
     return {
         posts: state.profilePage.posts,
         profile: state.profilePage.profile,
-        isAuth: state.auth.isAuth
+        status: state.profilePage.status
     }
 }
+export default compose(
+    connect(mapStateToProps, {
+        AddTask,
+        SetUserProfileThunk,
+        setProfileStatusThunk,
+        updateProfileStatusThunk
+    }),
+    withRouter,
+    // RedirectHoc
+)(ProfileComponent) as React.FunctionComponent<any>
 
-
-
-export default connect(mapStateToProps, {
-    AddTask,
-    SetUserProfileThunk
-})(withRouter(ProfileComponent));

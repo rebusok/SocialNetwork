@@ -2,21 +2,27 @@ import React from 'react';
 import style from './ProfileInfo.module.scss'
 import {ProfileType} from '../../../redux/profileReducer';
 import Spinner from "../../UI/Loader/Spinner/Spinner";
+import ProfileStatus from "./ProfileStatus";
 
 interface ProfileInfo {
     profile?: ProfileType
+    status: string
+    updateStatus: (status:string)=>  void
 }
 
 const ProfileInfo = (props: ProfileInfo) => {
-    if (!props.profile) {
+    if (!props.profile || !props.status ) {
         return <Spinner/>
     }
+
+    console.log(props.status)
     const {fullName, photos, aboutMe, contacts, lookingForAJob, lookingForAJobDescription} = props.profile
     return (
         <>
-            <div className={style.content_header_img}>
+            {/*<div className={style.content_header_img}>*/}
 
-            </div>
+            {/*</div>*/}
+            <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
             <div className={style.user}>
                 <div className={style.avatar_wrapper}>
                     <div className={style.avatar}>

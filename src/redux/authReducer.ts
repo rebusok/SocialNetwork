@@ -60,7 +60,6 @@ export const SetUserDataThunk = ():ThunkTypesAuth => (dispatch:authDispatchType)
         if (res.resultCode === 0){
             dispatch(SetUserData(res.data))
         }
-        console.log(res)
     })
 }
 

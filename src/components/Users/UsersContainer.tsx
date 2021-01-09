@@ -7,6 +7,8 @@ import React, {Component} from "react";
 import Users, {usersPagesType} from "./Users";
 import Spinner from "../UI/Loader/Spinner/Spinner";
 import {AppStateType} from "../../redux/reduxStore";
+import RedirectHoc from "../../HOC/RedirectHoc";
+import {compose} from "redux";
 
 
 
@@ -57,7 +59,6 @@ class UsersAPIComponent extends Component<usersPagesContainerType, any> {
     }
 }
 
-
 const mapStateToProps = (state: AppStateType) => {
     return {
         users: state.usersPage.users,
@@ -69,9 +70,11 @@ const mapStateToProps = (state: AppStateType) => {
     }
 }
 
-
-export default connect(mapStateToProps, {
-    followThunk,
-    unFollowThunk,
-    getUsers:getUsersThunkCreator
-})(UsersAPIComponent);
+export default compose(
+    connect(mapStateToProps, {
+        followThunk,
+        unFollowThunk,
+        getUsers:getUsersThunkCreator
+    }),
+    RedirectHoc
+)(UsersAPIComponent) as React.FunctionComponent<any>
