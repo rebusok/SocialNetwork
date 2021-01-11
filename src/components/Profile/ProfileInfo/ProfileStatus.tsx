@@ -1,5 +1,4 @@
-import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
-import style from './ProfileInfo.module.scss'
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 
 interface ProfileStatusProps {
     status: string

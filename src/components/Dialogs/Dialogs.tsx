@@ -1,10 +1,13 @@
-import React, {ChangeEvent, useState} from "react";
+import React from "react";
 import s from './Dialogs.module.css';
 import UsersDialog from "./usersDialog/UsersDialog";
 import ChatMessage from "./ChatMessage/ChatMessage";
 import {DialogPageType} from "../../redux/store";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 
-
+type FormDataTypeDia = {
+    dialogs: string
+}
 
 export type DialogsType = DialogPageType & {
     callBackAddTask: (value: string) => void
@@ -14,17 +17,10 @@ export type DialogsType = DialogPageType & {
 
 const Dialogs = (props: DialogsType) => {
 
-
-    const [value, setTitle] = useState('');
-
-    const callBackAddTask = () => {
-        if (value.trim() !== '') {
-            props.callBackAddTask(value)
+    const callBackAddTask = (formData: FormDataTypeDia) => {
+        if (formData.dialogs.trim() !== '') {
+            props.callBackAddTask(formData.dialogs)
         }
-        setTitle('');
-    }
-    const onTitleChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setTitle(e.currentTarget.value);
     }
 
 
@@ -32,24 +28,35 @@ const Dialogs = (props: DialogsType) => {
         <div>
             <div className={s.wrapper}>
                 <UsersDialog dialogs={props.dialogs}/>
-                <div className={s.line}></div>
+                <div className={s.line}/>
                 <ChatMessage messages={props.messages}/>
             </div>
 
             <div className={s.textarea_head}>
-                <textarea
-                    className={s.textarea}
-                    value={value}
-                    onChange={onTitleChangeHandler}>
-
-                 </textarea>
-                <button className={`btn btn-success  ${s.btn_dialog}`} onClick={callBackAddTask}>Add MES</button>
+                <DialogsFormRedux onSubmit={callBackAddTask}/>
             </div>
         </div>
     )
-
-
 }
+
+const DialogsForm: React.FC<InjectedFormProps<FormDataTypeDia>> = (props) => {
+    console.log(props)
+    return (
+        <form onSubmit={props.handleSubmit} className={s.title_form}>
+            <Field
+                name={'dialogs'}
+                className={s.textarea}
+                component={'textarea'}
+            >
+
+            </Field>
+            <button className={`btn btn-success  ${s.btn_dialog}`}>Add MES</button>
+        </form>
+    )
+}
+const DialogsFormRedux = reduxForm<FormDataTypeDia>({
+    form: "dialogs"
+})(DialogsForm)
 
 
 export default Dialogs;

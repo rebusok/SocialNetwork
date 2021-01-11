@@ -8,8 +8,7 @@ import {
 } from "../../redux/profileReducer";
 import {AppStateType} from "../../redux/reduxStore";
 import {withRouter} from "react-router";
-import RedirectHoc from "../../HOC/RedirectHoc";
-import { compose } from "redux";
+import {compose} from "redux";
 import React from "react";
 
 const mapStateToProps = (state:AppStateType) => {

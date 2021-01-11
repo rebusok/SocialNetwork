@@ -26,8 +26,7 @@ const initialState = {
         {id:v1(), message:'Buy'},
         {id:v1(), message:'Ear'},
         {id:v1(), message:'Pop'}
-    ],
-    newMessageBody: ''
+    ]
 }
 
 const dialogReducer = (state: DialogPageType = initialState, action: ActionType):DialogPageType  => {

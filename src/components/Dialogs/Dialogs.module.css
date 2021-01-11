@@ -24,3 +24,8 @@ textarea {
 .btn_dialog {
     height: 40px;
 }
+.title_form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
