@@ -1,16 +1,15 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
 import classes from './Header.module.css';
+import {AuthType} from "../../redux/authReducer";
 
-import { HeaderContainerTypes } from "./HeaderContainer";
-
-interface HeaderTypes extends HeaderContainerTypes{
-
+interface HeaderTypes {
+    auth:AuthType
 }
 
-const Header = ({auth}:HeaderTypes) => {
+const Header = (props:HeaderTypes) => {
 
-    const {isAuth, data, }= auth
+    const {isAuth, data, }= props.auth
 
     return (
         <header className={classes.header}>

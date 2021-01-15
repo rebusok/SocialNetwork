@@ -4,19 +4,11 @@ import style from './Users.module.scss'
 import avatar from '../../assets/image/react-javascript-library-redux-user-interface-tesseract.jpg'
 
 import {NavLink} from 'react-router-dom';
+import {PropsUserFromRedux} from "./UsersContainer";
 
 
-
-export interface usersPagesType {
-    totalUsersCount: number
-    users: Array<UsersType>
-    pageSize: number
-    currentPage: number
-    unFollowThunk: (userId: number) => void
-    followThunk: (userId: number) => void
+export interface usersPagesType extends PropsUserFromRedux {
     onPageChanged?: (pageNum: number) => void
-    followIsProgress: Array<number>
-    loading: boolean
 }
 
 
@@ -86,8 +78,8 @@ const Users = (props: usersPagesType) => {
                 })
             }
 
-                </React.Fragment>
-                );
-            };
+        </React.Fragment>
+    );
+};
 
 export default Users;

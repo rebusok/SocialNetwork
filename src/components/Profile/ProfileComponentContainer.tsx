@@ -1,5 +1,5 @@
 import ProfileComponent from "./ProfileComponent";
-import {connect} from "react-redux";
+import {connect, ConnectedProps} from "react-redux";
 import {
     AddTask,
     setProfileStatusThunk,
@@ -9,7 +9,7 @@ import {
 import {AppStateType} from "../../redux/reduxStore";
 import {withRouter} from "react-router";
 import {compose} from "redux";
-import React from "react";
+import  {ComponentType} from "react";
 
 const mapStateToProps = (state:AppStateType) => {
     return {
@@ -18,14 +18,17 @@ const mapStateToProps = (state:AppStateType) => {
         status: state.profilePage.status
     }
 }
-export default compose(
-    connect(mapStateToProps, {
-        AddTask,
-        SetUserProfileThunk,
-        setProfileStatusThunk,
-        updateProfileStatusThunk
-    }),
+export type PropsProfileFromRedux = ConnectedProps<typeof connector>
+const connector = connect(mapStateToProps, {
+    AddTask,
+    SetUserProfileThunk,
+    setProfileStatusThunk,
+    updateProfileStatusThunk
+})
+
+export default compose<ComponentType>(
+    connector,
     withRouter,
     // RedirectHoc
-)(ProfileComponent) as React.FunctionComponent<any>
+)(ProfileComponent)
 

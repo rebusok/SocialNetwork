@@ -1,11 +1,11 @@
 
 import {addMessageActionCreator, DialogDispatchType} from "../../redux/dialogReducer";
-import {connect} from "react-redux";
+import {connect, ConnectedProps} from "react-redux";
 import Dialogs from "./Dialogs";
 import {AppStateType} from "../../redux/reduxStore";
 import RedirectHoc from "../../HOC/RedirectHoc";
 import {compose} from "redux";
-import React from "react";
+import {ComponentType} from "react";
 
 const mapStateToProps = (state:AppStateType) => {
     return {
@@ -23,8 +23,9 @@ const mapDispatchToProps = (dispatch:DialogDispatchType) => {
         }
     }
 }
+export type PropsDialogsFromRedux = ConnectedProps<typeof connector>
+const connector =connect(mapStateToProps, mapDispatchToProps)
 
-
-export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    RedirectHoc)(Dialogs) as React.FunctionComponent<any>
+export default compose<ComponentType>(
+    connector,
+    RedirectHoc)(Dialogs)

@@ -1,19 +1,14 @@
-import {connect} from "react-redux";
-import {
-    followThunk, getUsersThunkCreator,
-     unFollowThunk,
-} from "../../redux/usersReducer";
-import React, {Component} from "react";
-import Users, {usersPagesType} from "./Users";
+import {connect, ConnectedProps} from "react-redux";
+import {followThunk, getUsersThunkCreator, unFollowThunk,} from "../../redux/usersReducer";
+import React, {Component, ComponentType} from "react";
+import Users from "./Users";
 import Spinner from "../UI/Loader/Spinner/Spinner";
 import {AppStateType} from "../../redux/reduxStore";
 import RedirectHoc from "../../HOC/RedirectHoc";
 import {compose} from "redux";
 
 
-
-interface usersPagesContainerType extends usersPagesType {
-    getUsers: (pageSize: number, currentPage: number) => void
+interface usersPagesContainerType extends PropsUserFromRedux {
 }
 
 class UsersAPIComponent extends Component<usersPagesContainerType, any> {
@@ -52,6 +47,7 @@ class UsersAPIComponent extends Component<usersPagesContainerType, any> {
                 loading={loading}
                 unFollowThunk={unFollowThunk}
                 followThunk={followThunk}
+                {...this.props}
             />}
 
         </>
@@ -69,12 +65,14 @@ const mapStateToProps = (state: AppStateType) => {
         followIsProgress: state.usersPage.followIsProgress
     }
 }
+export type PropsUserFromRedux = ConnectedProps<typeof connector>
+const connector = connect(mapStateToProps, {
+    followThunk,
+    unFollowThunk,
+    getUsers:getUsersThunkCreator
+})
 
-export default compose(
-    connect(mapStateToProps, {
-        followThunk,
-        unFollowThunk,
-        getUsers:getUsersThunkCreator
-    }),
+export default compose<ComponentType>(
+    connector,
     RedirectHoc
-)(UsersAPIComponent) as React.FunctionComponent<any>
+)(UsersAPIComponent)

@@ -1,19 +1,11 @@
-
 import React, {Component} from "react";
-import {connect} from "react-redux";
+import {connect, ConnectedProps} from "react-redux";
 import {AppStateType} from "../../redux/reduxStore";
 import Header from "./Header";
-import {AuthType, SetUserDataThunk} from "../../redux/authReducer";
+import {SetUserDataThunk} from "../../redux/authReducer";
 
 
-
-
-export interface HeaderContainerTypes {
-    auth: AuthType
-    SetUserDataThunk?: () => void
-}
-
-class HeaderContainer extends Component<HeaderContainerTypes, any>{
+class HeaderContainer extends Component<PropsHeaderFromRedux, any>{
     componentDidMount() {
         this.props.SetUserDataThunk && this.props.SetUserDataThunk()
     }
@@ -32,8 +24,9 @@ const mapStateToProps = (state:AppStateType) => {
     }
 }
 
-
-
-export default connect(mapStateToProps, {
+export type PropsHeaderFromRedux = ConnectedProps<typeof connector>
+const connector =connect(mapStateToProps, {
     SetUserDataThunk
-})(HeaderContainer)
+})
+
+export default connector(HeaderContainer)

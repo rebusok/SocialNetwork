@@ -2,20 +2,17 @@ import React from "react";
 import s from './Dialogs.module.css';
 import UsersDialog from "./usersDialog/UsersDialog";
 import ChatMessage from "./ChatMessage/ChatMessage";
-import {DialogPageType} from "../../redux/store";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {TextAreaFom} from "../common/FormControls/FormContrrols";
+import {maxLength, requiredField} from "../../utils/Validators/Validator";
+import {PropsDialogsFromRedux} from "./DialogsContainer";
 
 type FormDataTypeDia = {
     dialogs: string
 }
 
-export type DialogsType = DialogPageType & {
-    callBackAddTask: (value: string) => void
-    isAuth: boolean
-}
-
-
-const Dialogs = (props: DialogsType) => {
+const InputVAl = maxLength(10);
+const Dialogs = (props: PropsDialogsFromRedux) => {
 
     const callBackAddTask = (formData: FormDataTypeDia) => {
         if (formData.dialogs.trim() !== '') {
@@ -40,13 +37,13 @@ const Dialogs = (props: DialogsType) => {
 }
 
 const DialogsForm: React.FC<InjectedFormProps<FormDataTypeDia>> = (props) => {
-    console.log(props)
     return (
         <form onSubmit={props.handleSubmit} className={s.title_form}>
             <Field
                 name={'dialogs'}
                 className={s.textarea}
-                component={'textarea'}
+                component={TextAreaFom}
+                validate={[requiredField, InputVAl]}
             >
 
             </Field>

@@ -1,8 +1,6 @@
 import {v1} from "uuid";
 import {ProfileAPI} from "../API/API";
-import {ThunkAction} from "redux-thunk";
-import {AppStateType} from "./reduxStore";
-
+import {AppThunk} from "./reduxStore";
 
 
 export enum ACTION_TYPE {
@@ -72,7 +70,7 @@ type ProfilePageType = {
     profile?: ProfileType
     status: string
 }
-type ThunkTypesProfile  = ThunkAction<void, AppStateType, unknown, ProfileACTypes>
+
 const profileReducer = (state: ProfilePageType = initialState, action: ProfileACTypes): ProfilePageType => {
 
     switch (action.type) {
@@ -102,24 +100,21 @@ export const AddTask = (value: string): addPostType => ({type: ACTION_TYPE.ADD_P
 export const SetUserProfile = (profile: ProfileType): setUserProfile => ({type: ACTION_TYPE.SET_USER, profile})
 export const SetProfileStatus = (status: string): SetProfileStatus => ({type:ACTION_TYPE.SET_PROFILE_STATUS, status})
 
-export const SetUserProfileThunk = (userId: string):ThunkTypesProfile => (dispatch) => {
+export const SetUserProfileThunk = (userId: string):AppThunk => (dispatch) => {
 
     ProfileAPI.setUsersProfile(userId).then(res => {
-        console.log(res)
         dispatch(SetUserProfile(res))
     })
 }
 
-export  const setProfileStatusThunk = (userId: string):ThunkTypesProfile => (dispatch) => {
+export  const setProfileStatusThunk = (userId: string):AppThunk => (dispatch) => {
     ProfileAPI.getStatus(userId).then(res => {
-        console.log(res)
         dispatch(SetProfileStatus(res.data))
     })
 }
-export  const updateProfileStatusThunk = (status: string):ThunkTypesProfile => (dispatch) => {
+export  const updateProfileStatusThunk = (status: string):AppThunk => (dispatch) => {
     ProfileAPI.updateStatus(status).then(res => {
 
-        console.log(res)
         if(res.data.resultCode === 0 ) {
             dispatch(SetProfileStatus(status))
         }

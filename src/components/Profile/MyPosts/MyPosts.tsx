@@ -3,6 +3,11 @@ import Posts from "./Post/Posts";
 import style from './MyPosts.module.css';
 import {ProfileComponentType} from "../ProfileComponent";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {requiredField, maxLength} from "../../../utils/Validators/Validator";
+import {TextAreaFom} from "../../common/FormControls/FormContrrols";
+
+
+const maxLengthVal = maxLength(10);
 
 interface MyPostsType extends ProfileComponentType  {
 
@@ -42,19 +47,18 @@ const MyPosts = (props:MyPostsType) => {
 }
 
 const MyPostsForm:React.FC<InjectedFormProps<FormDataTypePost>> = (props) => {
-    console.log(props)
     return (
-
         <form className={style.input + " input-group mb-3"} onSubmit={props.handleSubmit}>
             <Field
                 type="text" className="form-control"
                 name={'myPosts'}
-                component={'textarea'}
-
+                component={TextAreaFom}
+                validate={[requiredField, maxLengthVal]}
+                placeholder={'test'}
             />
-            <div className="input-group-append">
+            <div className="input-group-append d-flex">
                 <button
-                    className="btn btn-success"
+                    className={'btn btn-success ' + style.btnForm}
                     >Add Post
                 </button>
 

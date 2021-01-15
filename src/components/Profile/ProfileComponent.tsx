@@ -1,20 +1,12 @@
 import React, {Component} from "react";
 import classes from './ProfileComponent.module.css'
 import MyPosts from "./MyPosts/MyPosts";
-import {PostType} from "../../redux/store";
-import {ProfileType} from "../../redux/profileReducer";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import { RouteComponentProps} from "react-router";
+import {RouteComponentProps} from "react-router";
+import {PropsProfileFromRedux} from "./ProfileComponentContainer";
 
 
-export interface ProfileComponentType extends RouteComponentProps<MatchParams> {
-    posts: Array<PostType>
-    AddTask: (value: string) => void
-    profile?: ProfileType
-    SetUserProfileThunk: (userId: string) => void
-    setProfileStatusThunk: (userId: string) => void
-    updateProfileStatusThunk: (status:string) => void
-    status:string
+export interface ProfileComponentType extends   PropsProfileFromRedux, RouteComponentProps<MatchParams>{
 }
 
 interface MatchParams {
