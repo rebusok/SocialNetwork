@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const key = "be583272-b0d8-4135-8f53-6b8fcf5092e2";
+const key = "34263072-624d-43a5-8a5f-75afa7ad4af4";
 const configOMB = {
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true,
@@ -29,6 +29,13 @@ const API = {
     authMe: async () => {
         return await axiosInstance.get(`auth/me`).then(res => res.data)
     },
+    login: (email:string, password:string, rememberMy:boolean) => {
+        return axiosInstance.post('auth/login', {email, password, rememberMy}).then(res => res)
+    },
+    logOut: () => {
+        return axiosInstance.delete('auth/login').then(res => res)
+    }
+
 
 }
 
@@ -40,7 +47,7 @@ export const ProfileAPI = {
         return axiosInstance.get(`profile/status/${userId}`).then(res => res)
     },
     updateStatus: (status: string) => {
-        return axiosInstance.put('profile/status', {status}).then(res => res)
+        return axiosInstance.put('profile/status', {status: status}).then(res => res)
     }
 }
 

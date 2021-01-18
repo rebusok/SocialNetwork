@@ -15,7 +15,8 @@ const mapStateToProps = (state:AppStateType) => {
     return {
         posts: state.profilePage.posts,
         profile: state.profilePage.profile,
-        status: state.profilePage.status
+        status: state.profilePage.status,
+        isAuth: state.auth
     }
 }
 export type PropsProfileFromRedux = ConnectedProps<typeof connector>

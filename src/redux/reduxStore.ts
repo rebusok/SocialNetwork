@@ -4,9 +4,9 @@ import dialogReducer, {ActionType} from './dialogReducer';
 import usersReducer, { usersACTypes } from "./usersReducer";
 import AuthReducer, {authACTypes} from "./authReducer";
 import thunk, {ThunkAction} from "redux-thunk";
-import {reducer as formReducer} from 'redux-form'
+import {FormAction, reducer as formReducer} from 'redux-form'
 
-type  RootReduceType = typeof reducers;
+export type  RootReduceType = typeof reducers;
 export type AppStateType = ReturnType<RootReduceType>
 const reducers = combineReducers({
     profilePage:profileReducer,
@@ -17,7 +17,7 @@ const reducers = combineReducers({
 });
 
 const store:any = createStore(reducers, applyMiddleware(thunk));
-export type AppActionType = ProfileACTypes | ActionType | authACTypes | usersACTypes
+export type AppActionType = ProfileACTypes | ActionType | authACTypes | usersACTypes | FormAction
 export type AppThunk<ReturnType = void> = ThunkAction<
     ReturnType,
     AppStateType,

@@ -15,7 +15,6 @@ const ProfileInfo = (props: ProfileInfo) => {
         return <Spinner/>
     }
 
-    console.log(props.status)
     const {fullName, photos, aboutMe, contacts, lookingForAJob, lookingForAJobDescription} = props.profile
     return (
         <>

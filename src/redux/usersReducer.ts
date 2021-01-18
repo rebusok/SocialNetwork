@@ -149,7 +149,6 @@ type ThunkTypesUser  = ThunkAction<void, AppStateType, unknown, usersACTypes>
 
     API.getUsers(currentPage, pageSize)
         .then((res: any) => {
-            console.log(res)
             dispatch(setUsers(res.items))
             dispatch(toggleLoading(false))
             // this.props.setTotalCount(res.data.totalCount)
@@ -166,7 +165,6 @@ export const followThunk = (userId:number):ThunkTypesUser => (dispatch) => {
                 dispatch(toggleFollowProgress( userId, false))
             }
 
-            console.log(res)
         })
 }
 export const unFollowThunk = (userId:number):ThunkTypesUser => (dispatch) => {
@@ -177,7 +175,6 @@ export const unFollowThunk = (userId:number):ThunkTypesUser => (dispatch) => {
                 dispatch(unFollow(userId))
                 dispatch(toggleFollowProgress(userId, false))
             }
-            console.log(res)
         })
 }
 export default usersReducer;

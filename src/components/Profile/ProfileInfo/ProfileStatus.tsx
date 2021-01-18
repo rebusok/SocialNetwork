@@ -15,8 +15,9 @@ const ProfileStatus: React.FC<ProfileStatusProps> = (props) => {
         }
     }
     const onBlurHandler = () => {
-        setEditMode(false)
+
         props.updateStatus(value)
+        setEditMode(false)
         setTitle(value)
     }
     const activateEditMode = () => {

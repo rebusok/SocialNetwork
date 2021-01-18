@@ -17,10 +17,16 @@ export default class ProfileComponent extends Component<ProfileComponentType, an
 
     componentDidMount() {
         let userId = this.props.match.params.userId;
+
         if (!userId) {
-            userId = '13024';
+            if (this.props.isAuth.data.id) {
+                userId = this.props.isAuth.data.id.toString();
+            } else  {
+                userId = '13024';
+            }
         }
         this.props.SetUserProfileThunk(userId)
+
         this.props.setProfileStatusThunk(userId)
 
     }

@@ -33,7 +33,6 @@ const dialogReducer = (state: DialogPageType = initialState, action: ActionType)
     switch(action.type){
         case "ADD-MES":
             const newMes = {id: v1(), message: action.message};
-            console.log(state)
             return {...state, messages:[...state.messages, newMes]}
         default: return state
     }

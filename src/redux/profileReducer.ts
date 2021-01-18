@@ -113,9 +113,12 @@ export  const setProfileStatusThunk = (userId: string):AppThunk => (dispatch) =>
     })
 }
 export  const updateProfileStatusThunk = (status: string):AppThunk => (dispatch) => {
+    console.log(status)
+    debugger
     ProfileAPI.updateStatus(status).then(res => {
 
         if(res.data.resultCode === 0 ) {
+            debugger
             dispatch(SetProfileStatus(status))
         }
 
