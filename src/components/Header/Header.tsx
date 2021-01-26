@@ -17,7 +17,7 @@ const Header = (props: HeaderTypes) => {
     }
     return (
         <header className={classes.header}>
-            <NavLink to='/'><img alt='aca' className={classes.img}
+            <NavLink to='/profile'><img alt='aca' className={classes.img}
                                  src='https://dcassetcdn.com/design_img/718794/445771/445771_4394919_718794_image.png'/></NavLink>
             <div className={classes.login_block}>
                 {isAuth

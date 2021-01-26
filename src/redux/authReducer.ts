@@ -62,7 +62,7 @@ export const SetUserData = (data: DataUserType, isAuth: boolean): SetUserData =>
 })
 
 export const SetUserDataThunk = (isAuth: boolean): AppThunk => (dispatch) => {
-    API.authMe().then((res: any) => {
+    return API.authMe().then((res: any) => {
         if (res.resultCode === 0) {
             dispatch(SetUserData(res.data, isAuth))
         }

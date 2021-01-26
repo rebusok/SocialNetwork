@@ -6,9 +6,7 @@ import {SetUserDataThunk} from "../../redux/authReducer";
 
 
 class HeaderContainer extends Component<PropsHeaderFromRedux, any>{
-    componentDidMount() {
-        this.props.SetUserDataThunk && this.props.SetUserDataThunk(true)
-    }
+
 
     render() {
         return (
