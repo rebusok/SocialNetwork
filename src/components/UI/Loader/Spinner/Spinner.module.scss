@@ -1,4 +1,4 @@
-section {
+.my_loader {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,13 +16,13 @@ section {
   }
 }
 
-section .loader {
+.my_loader .loader {
   position: relative;
   width: 110px;
   height: 110px;
 
 }
-section .loader span {
+.my_loader .loader span {
   position: absolute;
   top: 10px;
   left: 0;
@@ -31,7 +31,7 @@ section .loader span {
   transform: rotate(calc(18deg * var(--i)));
 }
 
-section .loader span::before{
+.my_loader .loader span::before{
   content: '';
   position: absolute;
   top: 0;

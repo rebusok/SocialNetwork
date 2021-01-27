@@ -72,7 +72,7 @@ export const LoginRe = (email: string, password: string, rememberMy: boolean): A
 
     API.login(email, password, rememberMy).then(res => {
         if (res.data.resultCode === 0) {
-            debugger
+
             dispatch(SetUserDataThunk(true))
         } else {
 

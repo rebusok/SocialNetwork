@@ -17,8 +17,9 @@ export default class ProfileComponent extends Component<ProfileComponentType, an
 
     componentDidMount() {
         let userId = this.props.match.params.userId;
-
+        console.log(userId)
         if (!userId) {
+
             if (this.props.isAuth.data.id) {
                 userId = this.props.isAuth.data.id.toString();
             } else  {

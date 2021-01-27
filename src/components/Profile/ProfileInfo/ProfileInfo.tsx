@@ -11,7 +11,8 @@ interface ProfileInfo {
 }
 
 const ProfileInfo = (props: ProfileInfo) => {
-    if (!props.profile || !props.status ) {
+    console.log(props)
+    if (!props.profile  || !props.status ) {
         return <Spinner/>
     }
 
@@ -19,7 +20,7 @@ const ProfileInfo = (props: ProfileInfo) => {
     return (
         <>
             {/*<div className={style.content_header_img}>*/}
-
+            {console.log('rens')}
             {/*</div>*/}
             <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
             <div className={style.user}>

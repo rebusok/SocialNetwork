@@ -177,4 +177,7 @@ export const unFollowThunk = (userId:number):ThunkTypesUser => (dispatch) => {
             }
         })
 }
+
+
+
 export default usersReducer;

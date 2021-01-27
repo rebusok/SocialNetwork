@@ -40,8 +40,8 @@ const API = {
 }
 
 export const ProfileAPI = {
-    setUsersProfile: async (userId: string) => {
-        return await axiosInstance.get(`profile/${userId}`).then(res => res.data)
+    setUsersProfile:  (userId: string) => {
+        return  axiosInstance.get(`profile/${userId}`).then(res => res.data)
     },
     getStatus: (userId: string) => {
         return axiosInstance.get(`profile/status/${userId}`).then(res => res)

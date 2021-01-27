@@ -57,7 +57,8 @@ const initialState = {
         {id: v1(), message: 'Learn run', likeCount: 14}
     ],
     newPostText: 'hello',
-    status: ''
+    status: '',
+    loading: false
 }
 type PostType = {
     id: string
@@ -69,6 +70,7 @@ type ProfilePageType = {
     newPostText: string
     profile?: ProfileType
     status: string
+    loading: boolean
 }
 
 const profileReducer = (state: ProfilePageType = initialState, action: ProfileACTypes): ProfilePageType => {
@@ -103,6 +105,7 @@ export const SetProfileStatus = (status: string): SetProfileStatus => ({type:ACT
 export const SetUserProfileThunk = (userId: string):AppThunk => (dispatch) => {
 
     ProfileAPI.setUsersProfile(userId).then(res => {
+        console.log(res)
         dispatch(SetUserProfile(res))
     })
 }
@@ -125,6 +128,7 @@ export  const updateProfileStatusThunk = (status: string):AppThunk => (dispatch)
 
     })
 }
+
 
 
 

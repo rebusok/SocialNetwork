@@ -14,7 +14,22 @@
   grid-area: content;
 
 }
+.main_menu {
+  background: white;
+}
 
-*{
-  box-sizing: border-box;
+.img_header{
+  height: 60px;
+  width: 70px;
+
+}
+.img_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header_app{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

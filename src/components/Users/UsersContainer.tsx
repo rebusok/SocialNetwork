@@ -6,6 +6,13 @@ import Spinner from "../UI/Loader/Spinner/Spinner";
 import {AppStateType} from "../../redux/reduxStore";
 import RedirectHoc from "../../HOC/RedirectHoc";
 import {compose} from "redux";
+import {
+    getPageSize,
+    getTotalUsersCount,
+    getCurrentPage,
+    getLoading,
+    getFollowIsProgress, getUserSuper
+} from "../../redux/usersSelector";
 
 
 interface usersPagesContainerType extends PropsUserFromRedux {
@@ -38,6 +45,7 @@ class UsersAPIComponent extends Component<usersPagesContainerType, any> {
         } = this.props
         return <>
             {loading ? <Spinner/> : <Users
+                {...this.props}
                 users={users}
                 totalUsersCount={totalUsersCount}
                 pageSize={pageSize}
@@ -47,7 +55,6 @@ class UsersAPIComponent extends Component<usersPagesContainerType, any> {
                 loading={loading}
                 unFollowThunk={unFollowThunk}
                 followThunk={followThunk}
-                {...this.props}
             />}
 
         </>
@@ -57,12 +64,12 @@ class UsersAPIComponent extends Component<usersPagesContainerType, any> {
 
 const mapStateToProps = (state: AppStateType) => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        loading: state.usersPage.loading,
-        followIsProgress: state.usersPage.followIsProgress
+        users: getUserSuper(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        loading: getLoading(state),
+        followIsProgress: getFollowIsProgress(state)
     }
 }
 export type PropsUserFromRedux = ConnectedProps<typeof connector>

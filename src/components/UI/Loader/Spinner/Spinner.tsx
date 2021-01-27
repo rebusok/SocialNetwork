@@ -10,11 +10,11 @@ const Spinner = () => {
 
     return (
         <React.Fragment>
-            <section>
+            <section className={s.my_loader}>
                 <div className={s.loader}>
                     {
                         arrStyle.map((item, inx) => {
-                            return <span style={item} key={inx}/>
+                            return <span style={item} key={inx} className={s.loader_span}/>
                         })
                     }
 

@@ -1,17 +1,37 @@
-.header{
-    grid-area: header;
-    background-color: lawngreen;
+.login_block{
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    text-align: center;
 }
 .img{
     height: 80px;
     width: 100px;
 }
 .login_block  a {
-    color: #fff;
+    color: black;
+    font-weight: bold;
     text-decoration: none;
     margin-right:  10px;
     text-transform: uppercase;
+    position: absolute;
+}
+.login_name  {
+    margin: 0 auto;
+    padding: 0;
+
+    height: 40%;
+    line-height: 10px;
+}
+.log_out {
+    height: 40%;
+    position: relative;
+    margin: 0 auto;
+    padding: 0;
+    top: -30px;
+    left: -8px;
 }
