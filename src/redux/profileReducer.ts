@@ -7,27 +7,10 @@ export enum ACTION_TYPE {
     ADD_POST = 'SOC/PROFILE/ADD_POST',
     SET_USER = 'SOC/PROFILE/SET_USER',
     SET_PROFILE_STATUS = 'SET_PROFILE_STATUS',
-
+    SET_PROFILE_LOADING= 'SET_PROFILE_LOADING',
 }
 
-export type ProfileACTypes =
-    ReturnType<typeof AddTask>
-    | ReturnType<typeof SetUserProfile>
-    | ReturnType<typeof SetProfileStatus>
 
-type addPostType = {
-    type: ACTION_TYPE.ADD_POST
-    value: string
-}
-type setUserProfile = {
-    type: ACTION_TYPE.SET_USER
-    profile: ProfileType
-}
-
-type SetProfileStatus = {
-    type: ACTION_TYPE.SET_PROFILE_STATUS
-    status: string
-}
 export type ProfileType = {
     aboutMe: string
     contacts: {
@@ -56,6 +39,7 @@ const initialState = {
         {id: v1(), message: 'Blooo', likeCount: 1},
         {id: v1(), message: 'Learn run', likeCount: 14}
     ],
+    profile: undefined,
     newPostText: 'hello',
     status: '',
     loading: false
@@ -68,13 +52,13 @@ type PostType = {
 type ProfilePageType = {
     posts: Array<PostType>
     newPostText: string
-    profile?: ProfileType
+    profile: ProfileType | undefined
     status: string
     loading: boolean
 }
 
-const profileReducer = (state: ProfilePageType = initialState, action: ProfileACTypes): ProfilePageType => {
-
+const profileReducer = (state: ProfilePageType = initialState, action: any): ProfilePageType => {
+    console.log(action)
     switch (action.type) {
         case ACTION_TYPE.ADD_POST:
             const newPost = {id: v1(), message: action.value, likeCount: 0};
@@ -92,45 +76,57 @@ const profileReducer = (state: ProfilePageType = initialState, action: ProfileAC
                 ...state,
                 status: action.status
             }
+        case ACTION_TYPE.SET_PROFILE_LOADING:
+            return {
+                ...state,
+                loading: action.loading
+            }
         default:
             return state
     }
 
 }
 
-export const AddTask = (value: string): addPostType => ({type: ACTION_TYPE.ADD_POST, value})
-export const SetUserProfile = (profile: ProfileType): setUserProfile => ({type: ACTION_TYPE.SET_USER, profile})
-export const SetProfileStatus = (status: string): SetProfileStatus => ({type:ACTION_TYPE.SET_PROFILE_STATUS, status})
+export const AddTask = (value: string) => ({type: ACTION_TYPE.ADD_POST, value})
+export const SetUserProfile = (profile: ProfileType) => ({type: ACTION_TYPE.SET_USER, profile})
+export const SetProfileStatus = (status: string) => ({type:ACTION_TYPE.SET_PROFILE_STATUS, status})
+export const setProfileLoading = (loading:boolean) => ({type:ACTION_TYPE.SET_PROFILE_LOADING, loading})
+
+export type ProfileACTypes =
+    ReturnType<typeof AddTask>
+    | ReturnType<typeof SetUserProfile>
+    | ReturnType<typeof SetProfileStatus>
+    | ReturnType<typeof setProfileLoading>
+
+
+
 
 export const SetUserProfileThunk = (userId: string):AppThunk => (dispatch) => {
-
+    dispatch(setProfileLoading(true))
     ProfileAPI.setUsersProfile(userId).then(res => {
         console.log(res)
+        dispatch(setProfileLoading(false))
         dispatch(SetUserProfile(res))
     })
 }
 
 export  const setProfileStatusThunk = (userId: string):AppThunk => (dispatch) => {
+    dispatch(setProfileLoading(true))
     ProfileAPI.getStatus(userId).then(res => {
+        console.log(res)
         dispatch(SetProfileStatus(res.data))
+        dispatch(setProfileLoading(false))
     })
 }
 export  const updateProfileStatusThunk = (status: string):AppThunk => (dispatch) => {
-    console.log(status)
-    debugger
+    dispatch(setProfileLoading(true))
     ProfileAPI.updateStatus(status).then(res => {
-
         if(res.data.resultCode === 0 ) {
-            debugger
+            dispatch(setProfileLoading(false))
             dispatch(SetProfileStatus(status))
         }
-
-
     })
 }
-
-
-
 
 
 export default profileReducer;

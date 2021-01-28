@@ -4,15 +4,20 @@ import {ProfileType} from '../../../redux/profileReducer';
 import Spinner from "../../UI/Loader/Spinner/Spinner";
 import ProfileStatus from "./ProfileStatus";
 
-interface ProfileInfo {
+interface ProfileInfoProps {
     profile?: ProfileType
     status: string
     updateStatus: (status:string)=>  void
+    loading: boolean
 }
 
-const ProfileInfo = (props: ProfileInfo) => {
+const ProfileInfo = (props: ProfileInfoProps) => {
     console.log(props)
-    if (!props.profile  || !props.status ) {
+    console.log(props.status)
+    if (!props.profile ) {
+        return <Spinner/>
+    }
+    if (props.loading ) {
         return <Spinner/>
     }
 
@@ -20,7 +25,7 @@ const ProfileInfo = (props: ProfileInfo) => {
     return (
         <>
             {/*<div className={style.content_header_img}>*/}
-            {console.log('rens')}
+
             {/*</div>*/}
             <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
             <div className={style.user}>

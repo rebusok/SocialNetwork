@@ -4,6 +4,7 @@ import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import {RouteComponentProps} from "react-router";
 import {PropsProfileFromRedux} from "./ProfileComponentContainer";
+import Spinner from "../UI/Loader/Spinner/Spinner";
 
 
 export interface ProfileComponentType extends   PropsProfileFromRedux, RouteComponentProps<MatchParams>{
@@ -33,20 +34,23 @@ export default class ProfileComponent extends Component<ProfileComponentType, an
     }
 
     render() {
+        if(this.props.loading) {
+            return <Spinner/>
+        }
+        return (
+            <div className={classes.content}>
+                <ProfileInfo
+                    profile={this.props.profile}
+                    status={this.props.status}
+                    updateStatus = {this.props.updateProfileStatusThunk}
+                    loading={this.props.loading}
+                />
+                <MyPosts
 
-            return (
-                <div className={classes.content}>
-                    <ProfileInfo
-                        profile={this.props.profile}
-                        status={this.props.status}
-                        updateStatus = {this.props.updateProfileStatusThunk}
-                        />
-                    <MyPosts
-
-                        {...this.props}
-                    />
-                </div>
-            )
+                    {...this.props}
+                />
+            </div>
+        )
 
 
     }

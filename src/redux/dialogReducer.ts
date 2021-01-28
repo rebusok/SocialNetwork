@@ -1,13 +1,13 @@
-import {DialogPageType } from './store';
+import {DialogPageType} from './store';
 import {v1} from "uuid";
 import {Dispatch} from "redux";
 
 export type DialogDispatchType = Dispatch<ActionType>
 export type ActionType =
-     addMessageActionCreator;
+    addMessageActionCreatorType;
 
 
-export type addMessageActionCreator = {
+export type addMessageActionCreatorType = {
     type: "ADD-MES",
     message: string
 }
@@ -40,7 +40,7 @@ const dialogReducer = (state: DialogPageType = initialState, action: ActionType)
     
 }
 
-export const addMessageActionCreator = (value: string):addMessageActionCreator => {
+export const addMessageActionCreator = (value: string):addMessageActionCreatorType => {
     return {
         type: "ADD-MES",
         message: value

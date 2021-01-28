@@ -1,7 +1,6 @@
 import React, {ComponentType} from 'react';
-import Navbar from "./components/Navbar/Navbar";
 
-import {BrowserRouter as Router, Link, NavLink, Route, Switch} from 'react-router-dom';
+import {Link, Route, Switch} from 'react-router-dom';
 import DialogContainer from "./components/Dialogs/DialogsContainer";
 import ProfileComponentContainer from "./components/Profile/ProfileComponentContainer";
 import UsersContainer from "./components/Users/UsersContainer";
@@ -13,17 +12,11 @@ import {compose} from "redux";
 import {withRouter} from "react-router";
 import {InitializeApp} from "./redux/appReducer";
 import Spinner from "./components/UI/Loader/Spinner/Spinner";
-import  './App.css';
+import './App.css';
 import 'antd/dist/antd.css'
 
 import {Layout, Menu} from 'antd';
-import {
-    MenuUnfoldOutlined,
-    MenuFoldOutlined,
-    UserOutlined,
-    CommentOutlined,
-    TeamOutlined,
-} from '@ant-design/icons';
+import {CommentOutlined, MenuFoldOutlined, MenuUnfoldOutlined, TeamOutlined, UserOutlined,} from '@ant-design/icons';
 
 
 const {Header, Sider, Content} = Layout;

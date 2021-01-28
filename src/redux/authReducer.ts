@@ -33,11 +33,7 @@ export type AuthType = {
     data: DataUserType
     isAuth: boolean
 }
-export type SetUserData = {
-    type: ACTION_TYPE.SET_USER_DATA
-    data: DataUserType
-    isAuth: boolean
-}
+
 
 const AuthReducer = (state: AuthType = initialState, action: authACTypes) => {
     switch (action.type) {
@@ -55,7 +51,7 @@ const AuthReducer = (state: AuthType = initialState, action: authACTypes) => {
     }
 }
 
-export const SetUserData = (data: DataUserType, isAuth: boolean): SetUserData => ({
+export const SetUserData = (data: DataUserType, isAuth: boolean) => ({
     type: ACTION_TYPE.SET_USER_DATA,
     data,
     isAuth

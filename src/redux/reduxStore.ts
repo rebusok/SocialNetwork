@@ -1,5 +1,5 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
-import profileReducer, { ProfileACTypes, SetLoadingProfType } from './profileReducer';
+import profileReducer, { ProfileACTypes } from './profileReducer';
 import dialogReducer, {ActionType} from './dialogReducer';
 import usersReducer, { usersACTypes } from "./usersReducer";
 import AuthReducer, {authACTypes} from "./authReducer";
@@ -19,7 +19,7 @@ const reducers = combineReducers({
 });
 
 const store:any = createStore(reducers, applyMiddleware(thunk));
-export type AppActionType = ProfileACTypes | ActionType | authACTypes | usersACTypes | FormAction | InitializedTypeAc |SetLoadingProfType
+export type AppActionType = ProfileACTypes | ActionType | authACTypes | usersACTypes | FormAction | InitializedTypeAc
 export type AppThunk<ReturnType = void> = ThunkAction<
     ReturnType,
     AppStateType,
