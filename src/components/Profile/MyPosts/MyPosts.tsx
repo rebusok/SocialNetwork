@@ -16,7 +16,7 @@ interface MyPostsType extends ProfileComponentType  {
 type FormDataTypePost = {
     myPosts:string
 }
-const MyPosts = (props:MyPostsType) => {
+const MyPosts = React.memo((props:MyPostsType) => {
     const [error, setError] = useState<string | null>(null)
 
 
@@ -44,7 +44,7 @@ const MyPosts = (props:MyPostsType) => {
             <Posts posts={props.posts}/>
         </div>
     )
-}
+})
 
 const MyPostsForm:React.FC<InjectedFormProps<FormDataTypePost>> = (props) => {
     return (

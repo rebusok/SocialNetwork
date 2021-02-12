@@ -3,8 +3,8 @@ import axios from 'axios';
 
 const key = "34263072-624d-43a5-8a5f-75afa7ad4af4";
 const configOMB = {
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true,
+    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     headers: {
         "API-KEY": key
     }
