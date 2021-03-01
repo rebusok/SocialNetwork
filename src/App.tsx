@@ -1,9 +1,9 @@
 import React, {ComponentType} from 'react';
 
 import {Link, Route, Switch} from 'react-router-dom';
-import DialogContainer from "./components/Dialogs/DialogsContainer";
+
 import ProfileComponentContainer from "./components/Profile/ProfileComponentContainer";
-import UsersContainer from "./components/Users/UsersContainer";
+
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from './components/Login/Login';
 import {connect, ConnectedProps} from "react-redux";
@@ -18,6 +18,8 @@ import 'antd/dist/antd.css'
 import {Layout, Menu} from 'antd';
 import {CommentOutlined, MenuFoldOutlined, MenuUnfoldOutlined, TeamOutlined, UserOutlined,} from '@ant-design/icons';
 
+const DialogContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
+const UsersContainer = React.lazy(() => import("./components/Users/UsersContainer"))
 
 const {Header, Sider, Content} = Layout;
 
@@ -26,6 +28,7 @@ class App extends React.Component<PropsHeaderFromRedux, any> {
         this.props.InitializeApp && this.props.InitializeApp()
 
     }
+
     state = {
         collapsed: false,
     };
@@ -39,26 +42,28 @@ class App extends React.Component<PropsHeaderFromRedux, any> {
 
 
     render() {
-        if(!this.props.initialized) {
+        if (!this.props.initialized) {
             return <Spinner/>
         }
 
 
         return (
             <Layout>
-                <Sider trigger={<MenuFoldOutlined onClick={() => this.toggle()}/>} collapsible collapsed={this.state.collapsed}>
+                <Sider trigger={<MenuFoldOutlined onClick={() => this.toggle()}/>} collapsible
+                       collapsed={this.state.collapsed}>
                     <div className="img_wrapper">
                         <Link to='/profile'><img alt='aca' className={'img_header'}
-                                                    src='https://dcassetcdn.com/design_img/718794/445771/445771_4394919_718794_image.png'/>Social net</Link>
+                                                 src='https://dcassetcdn.com/design_img/718794/445771/445771_4394919_718794_image.png'/>Social
+                            net</Link>
                     </div>
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} >
+                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
                         <Menu.Item key="1" icon={<UserOutlined/>}>
                             <Link to='/profile'>Profile</Link>
                         </Menu.Item>
-                        <Menu.Item key="2" icon={<CommentOutlined />}>
+                        <Menu.Item key="2" icon={<CommentOutlined/>}>
                             <Link to='/dialogs/'>Dialog</Link>
                         </Menu.Item>
-                        <Menu.Item key="3" icon={<TeamOutlined />}>
+                        <Menu.Item key="3" icon={<TeamOutlined/>}>
                             <Link to='/users'>Users</Link>
                         </Menu.Item>
                     </Menu>
@@ -84,12 +89,21 @@ class App extends React.Component<PropsHeaderFromRedux, any> {
                         <Switch>
                             <Route path='/profile/:userId?' render={() => <ProfileComponentContainer
                             />}/>
-                            <Route path='/dialogs/:id?' exact render={() =>
-                                <DialogContainer/>
-                            }/>
-                            <Route path='/users' exact render={() =>
-                                <UsersContainer/>
-                            }/>
+                            <Route path='/dialogs/:id?' exact render={() => {
+
+                                return (
+                                    <React.Suspense fallback={<Spinner/>}>
+                                        < DialogContainer/>
+                                    </React.Suspense>
+                                )
+                            }}/>
+                            <Route path='/users' exact render={() => {
+                                return (
+                                    <React.Suspense fallback={<Spinner/>}>
+                                        <UsersContainer/>
+                                    </React.Suspense>
+                                )
+                            }}/>
                             <Route path='/login' exact render={() =>
                                 <Login/>
                             }/>

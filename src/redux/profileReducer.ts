@@ -7,7 +7,8 @@ export enum ACTION_TYPE {
     ADD_POST = 'SOC/PROFILE/ADD_POST',
     SET_USER = 'SOC/PROFILE/SET_USER',
     SET_PROFILE_STATUS = 'SET_PROFILE_STATUS',
-    SET_PROFILE_LOADING= 'SET_PROFILE_LOADING',
+    SET_PROFILE_LOADING = 'SET_PROFILE_LOADING',
+    SET_PROFILE_SAVE_PHOTO = 'SET_PROFILE_SAVE_PHOTO',
 }
 
 
@@ -57,8 +58,8 @@ type ProfilePageType = {
     loading: boolean
 }
 
-const profileReducer = (state: ProfilePageType = initialState, action: any): ProfilePageType => {
-    console.log(action)
+const profileReducer = (state: ProfilePageType = initialState, action: ProfileACTypes): ProfilePageType => {
+
     switch (action.type) {
         case ACTION_TYPE.ADD_POST:
             const newPost = {id: v1(), message: action.value, likeCount: 0};
@@ -81,27 +82,37 @@ const profileReducer = (state: ProfilePageType = initialState, action: any): Pro
                 ...state,
                 loading: action.loading
             }
+        case ACTION_TYPE.SET_PROFILE_SAVE_PHOTO:
+            return  {
+                ...state,
+
+                profile: {
+                    ...state.profile,
+                    photos:  action.photos
+                } as ProfileType
+            }
         default:
             return state
     }
 
 }
 
-export const AddTask = (value: string) => ({type: ACTION_TYPE.ADD_POST, value})
-export const SetUserProfile = (profile: ProfileType) => ({type: ACTION_TYPE.SET_USER, profile})
-export const SetProfileStatus = (status: string) => ({type:ACTION_TYPE.SET_PROFILE_STATUS, status})
-export const setProfileLoading = (loading:boolean) => ({type:ACTION_TYPE.SET_PROFILE_LOADING, loading})
+export const AddTask = (value: string) => ({type: ACTION_TYPE.ADD_POST, value}as const)
+export const SetUserProfile = (profile: ProfileType) => ({type: ACTION_TYPE.SET_USER, profile}as const)
+export const SetProfileStatus = (status: string) => ({type: ACTION_TYPE.SET_PROFILE_STATUS, status}as const)
+export const setProfileLoading = (loading: boolean) => ({type: ACTION_TYPE.SET_PROFILE_LOADING, loading}as const)
+export const SetSavePhoto = (photos: {small?: string
+    large?: string }) => ({type: ACTION_TYPE.SET_PROFILE_SAVE_PHOTO, photos } as const)
 
 export type ProfileACTypes =
     ReturnType<typeof AddTask>
     | ReturnType<typeof SetUserProfile>
     | ReturnType<typeof SetProfileStatus>
     | ReturnType<typeof setProfileLoading>
+    | ReturnType<typeof SetSavePhoto>
 
 
-
-
-export const SetUserProfileThunk = (userId: string):AppThunk => (dispatch) => {
+export const SetUserProfileThunk = (userId: string): AppThunk => (dispatch) => {
     dispatch(setProfileLoading(true))
     ProfileAPI.setUsersProfile(userId).then(res => {
         console.log(res)
@@ -110,7 +121,7 @@ export const SetUserProfileThunk = (userId: string):AppThunk => (dispatch) => {
     })
 }
 
-export  const setProfileStatusThunk = (userId: string):AppThunk => (dispatch) => {
+export const setProfileStatusThunk = (userId: string): AppThunk => (dispatch) => {
     dispatch(setProfileLoading(true))
     ProfileAPI.getStatus(userId).then(res => {
         console.log(res)
@@ -118,14 +129,28 @@ export  const setProfileStatusThunk = (userId: string):AppThunk => (dispatch) =>
         dispatch(setProfileLoading(false))
     })
 }
-export  const updateProfileStatusThunk = (status: string):AppThunk => (dispatch) => {
+export const updateProfileStatusThunk = (status: string): AppThunk => (dispatch) => {
     dispatch(setProfileLoading(true))
     ProfileAPI.updateStatus(status).then(res => {
-        if(res.data.resultCode === 0 ) {
+        if (res.data.resultCode === 0) {
             dispatch(setProfileLoading(false))
             dispatch(SetProfileStatus(status))
         }
     })
+}
+export const savePhotoTC = (photo: File): AppThunk => async (dispatch) => {
+    dispatch(setProfileLoading(true))
+
+    const res = await ProfileAPI.savePhoto(photo)
+    try {
+        if (res.resultCode === 0) {
+            dispatch(setProfileLoading(false))
+            dispatch(SetSavePhoto(res.data.photos))
+        }
+    } catch (e) {
+        console.log(e)
+    }
+
 }
 
 

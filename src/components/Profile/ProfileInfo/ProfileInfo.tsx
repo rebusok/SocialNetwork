@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import style from './ProfileInfo.module.scss'
 import {ProfileType} from '../../../redux/profileReducer';
 import Spinner from "../../UI/Loader/Spinner/Spinner";
@@ -9,19 +9,26 @@ interface ProfileInfoProps {
     status: string
     updateStatus: (status:string)=>  void
     loading: boolean
+    isOwner: boolean
+    savePhoto: (photo: File) => void
 }
 
 const ProfileInfo = (props: ProfileInfoProps) => {
-    console.log(props)
-    console.log(props.status)
+
     if (!props.profile ) {
         return <Spinner/>
     }
     if (props.loading ) {
         return <Spinner/>
     }
+    const onMainPhoto = (e:ChangeEvent<HTMLInputElement>) => {
+        if(e.target.files && e.target.files.length) {
+            props.savePhoto(e.target.files[0])
+        }
+    }
 
     const {fullName, photos, aboutMe, contacts, lookingForAJob, lookingForAJobDescription} = props.profile
+    console.log(props.profile)
     return (
         <>
             {/*<div className={style.content_header_img}>*/}
@@ -33,6 +40,7 @@ const ProfileInfo = (props: ProfileInfoProps) => {
                     <div className={style.avatar}>
                         <img src={photos.small} alt="avatar"/>
                     </div>
+                    {props.isOwner && <input type={'file'} onChange={onMainPhoto}/>}
                 </div>
 
                 <div className={style.user_prof}>

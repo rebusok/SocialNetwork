@@ -1,10 +1,11 @@
 import ProfileComponent from "./ProfileComponent";
 import {connect, ConnectedProps} from "react-redux";
 import {
-    AddTask,
+    AddTask, savePhotoTC,
     setProfileStatusThunk,
     SetUserProfileThunk,
-    updateProfileStatusThunk
+    updateProfileStatusThunk,
+
 } from "../../redux/profileReducer";
 import {AppStateType} from "../../redux/reduxStore";
 import {withRouter} from "react-router";
@@ -25,7 +26,8 @@ const connector = connect(mapStateToProps, {
     AddTask,
     SetUserProfileThunk,
     setProfileStatusThunk,
-    updateProfileStatusThunk
+    updateProfileStatusThunk,
+    savePhotoTC
 })
 
 export default compose<ComponentType>(

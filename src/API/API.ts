@@ -48,6 +48,11 @@ export const ProfileAPI = {
     },
     updateStatus: (status: string) => {
         return axiosInstance.put('profile/status', {status: status}).then(res => res)
+    },
+    savePhoto:(photo:File) => {
+        let formData = new FormData();
+        formData.append('image', photo)
+        return axiosInstance.put('profile/photo', formData).then(res => res.data)
     }
 }
 
